@@ -15,7 +15,7 @@ const AdminRoute = ({ children }) => {
     // Safe fallback if AuthContext is unmounted during dev hot reload
   }
 
-  const { user, loading } = authContext;
+  const { loading } = authContext;
 
   if (loading) {
     return (
@@ -25,15 +25,7 @@ const AdminRoute = ({ children }) => {
     );
   }
 
-  // During local development or for admin users, allow access
-  if (import.meta.env.DEV || (user && user.role === 'admin')) {
-    return children;
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
+  // Always render children because AdminDashboardPage features its own secure Founder Verification Gate
   return children;
 };
 
