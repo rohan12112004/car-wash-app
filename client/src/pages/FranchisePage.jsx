@@ -1,17 +1,17 @@
 /**
  * @file FranchisePage.jsx
- * @description Comprehensive franchise pitch page with ROI calculator, benefits grid, 4-step timeline, and high-converting application form.
+ * @description Comprehensive franchise pitch page with benefits grid, 4-step timeline, and high-converting application form.
  */
 
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   TrendingUp, GraduationCap, Wrench, Megaphone, Headphones, MapPin, 
-  Send, ShieldCheck, DollarSign, CheckCircle2, User, Mail, Phone, 
-  Briefcase, Sparkles, Building, Calculator, ArrowRight, HelpCircle
+  Send, DollarSign, CheckCircle2, User, Mail, Phone, 
+  Briefcase, Sparkles, Building
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
@@ -43,19 +43,16 @@ const schema = z.object({
   state: z.string().min(2, "State name is required"),
   investmentBudget: z.string().min(1, "Please select an investment budget range"),
   currentOccupation: z.string().min(2, "Occupation is required"),
-  franchiseType: z.string().optional(),
   message: z.string().optional(),
 });
 
 const FranchisePage = () => {
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
-  const [calculatorBudget, setCalculatorBudget] = useState(10); // in Lakhs INR
 
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      investmentBudget: '₹10 Lakhs - ₹25 Lakhs',
-      franchiseType: 'Unit Franchise (Doorstep + Store)',
+      investmentBudget: '2-3 Lacs (Doorstep Carwash)',
     }
   });
 
@@ -84,14 +81,9 @@ const FranchisePage = () => {
     }
   };
 
-  // ROI Calculator Calculations
-  const estimatedMonthlyRevenue = Math.round(calculatorBudget * 35000); // Rough projection
-  const estimatedMonthlyProfit = Math.round(estimatedMonthlyRevenue * 0.45); // 45% margin
-  const estimatedPaybackMonths = Math.max(6, Math.round((calculatorBudget * 100000) / estimatedMonthlyProfit));
-
   return (
     <PageWrapper
-      title="Franchise Opportunity | SparkleWash Pro"
+      title="Franchise Opportunity | Premia Carwash"
       description="Own a profitable doorstep car wash & cleaning franchise. Low investment, high ROI, 100% brand support, and territory protection."
     >
       <div className="bg-bg-light min-h-screen">
@@ -114,7 +106,7 @@ const FranchisePage = () => {
               </h1>
 
               <p className="text-base sm:text-lg text-gray-200 font-body max-w-2xl mx-auto mb-10 leading-relaxed">
-                Tap into India's booming ₹15,000 Cr automotive & home care market with an established, tech-enabled doorstep brand. High profit margins, recurring revenue, and zero prior experience required.
+                Tap into India's booming automotive & home care market with an established, tech-enabled doorstep brand. High profit margins, recurring revenue, and zero prior experience required.
               </p>
             </FadeIn>
 
@@ -142,89 +134,10 @@ const FranchisePage = () => {
           </div>
         </section>
 
-        {/* 2. ROI & PROFIT ESTIMATOR CALCULATOR */}
-        <section className="py-20 bg-white relative">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <SectionHeading 
-              title="Estimate Your Franchise Returns" 
-              subtitle="Interactive Profitability Calculator" 
-            />
-
-            <div className="bg-bg-light rounded-3xl p-6 sm:p-10 border border-gray-200 shadow-green grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              {/* Slider Input */}
-              <div className="lg:col-span-7 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 mb-2 text-primary-dark font-bold text-lg">
-                    <Calculator className="text-primary-light" size={24} />
-                    <span>Select Planned Investment Budget</span>
-                  </div>
-                  <p className="text-xs text-gray-500 mb-6">
-                    Adjust the slider to see projected monthly revenue and payback timelines.
-                  </p>
-
-                  <div className="mb-6">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-semibold text-gray-600">Initial Setup Capital</span>
-                      <span className="text-2xl font-extrabold text-primary-dark font-heading">₹{calculatorBudget} Lakhs</span>
-                    </div>
-                    <input 
-                      type="range" 
-                      min="5" 
-                      max="50" 
-                      step="1"
-                      value={calculatorBudget} 
-                      onChange={(e) => setCalculatorBudget(Number(e.target.value))}
-                      className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-light"
-                    />
-                    <div className="flex justify-between text-xs text-gray-400 mt-2 font-medium">
-                      <span>₹5 Lakhs (Micro Unit)</span>
-                      <span>₹25 Lakhs (Standard)</span>
-                      <span>₹50 Lakhs (Master Hub)</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-white border border-gray-200 text-xs text-gray-600 flex items-start gap-2">
-                  <ShieldCheck className="text-primary-light shrink-0 mt-0.5" size={18} />
-                  <span>Projections based on historical performance of existing 50+ franchisee hubs in tier-1 & tier-2 cities.</span>
-                </div>
-              </div>
-
-              {/* Result Cards */}
-              <div className="lg:col-span-5 bg-gradient-dark rounded-2xl p-6 text-white flex flex-col gap-6 shadow-xl border border-white/10">
-                <h4 className="text-xs font-bold text-accent uppercase tracking-wider border-b border-white/15 pb-3">
-                  Projected Financial Summary
-                </h4>
-
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-300">Est. Monthly Gross Revenue</span>
-                  <span className="text-xl font-extrabold text-white font-heading">₹{estimatedMonthlyRevenue.toLocaleString()}</span>
-                </div>
-
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-300">Est. Net Profit / Month (~45%)</span>
-                  <span className="text-2xl font-extrabold text-accent font-heading">₹{estimatedMonthlyProfit.toLocaleString()}</span>
-                </div>
-
-                <div className="flex justify-between items-center pt-3 border-t border-white/15">
-                  <span className="text-xs text-gray-300">Capital Payback Period</span>
-                  <span className="text-lg font-bold text-gold font-heading">{estimatedPaybackMonths} Months</span>
-                </div>
-
-                <a href="#apply-form" className="w-full">
-                  <Button className="w-full justify-center text-sm py-3 mt-2">
-                    Apply For This Budget Range
-                  </Button>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 3. FRANCHISE BENEFITS GRID */}
+        {/* 2. FRANCHISE BENEFITS GRID */}
         <section className="py-20 bg-bg-light border-t border-gray-200/60">
           <div className="container mx-auto px-4 max-w-6xl">
-            <SectionHeading title="Why Partner With SparkleWash Pro?" subtitle="Complete Business System" />
+            <SectionHeading title="Why Partner With Premia Carwash?" subtitle="Complete Business System" />
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
               {franchiseBenefits?.map((benefit, idx) => {
@@ -251,7 +164,7 @@ const FranchisePage = () => {
           </div>
         </section>
 
-        {/* 4. 4-STEP APPLICATION TIMELINE */}
+        {/* 3. 4-STEP APPLICATION TIMELINE */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4 max-w-5xl">
             <SectionHeading title="4 Steps to Launch Your Business" subtitle="Simple Onboarding Process" />
@@ -279,7 +192,7 @@ const FranchisePage = () => {
           </div>
         </section>
 
-        {/* 5. FRANCHISE APPLICATION FORM SECTION */}
+        {/* 4. FRANCHISE APPLICATION FORM SECTION */}
         <section id="apply-form" className="py-20 bg-bg-light border-t border-gray-200/60">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <FadeIn>
@@ -398,7 +311,7 @@ const FranchisePage = () => {
                         </div>
                       </div>
 
-                      {/* Dropdown 1: Investment Budget */}
+                      {/* Dropdown: Investment Budget */}
                       <div>
                         <label className="block text-xs font-semibold text-gray-200 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                           <DollarSign size={14} className="text-accent" /> Investment Budget Range *
@@ -407,27 +320,12 @@ const FranchisePage = () => {
                           {...register('investmentBudget')}
                           className="w-full px-4 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent text-sm"
                         >
-                          <option value="₹5 Lakhs - ₹10 Lakhs" className="text-gray-900">₹5 Lakhs - ₹10 Lakhs (Mobile Washing Unit)</option>
-                          <option value="₹10 Lakhs - ₹25 Lakhs" className="text-gray-900">₹10 Lakhs - ₹25 Lakhs (Standard City Hub)</option>
-                          <option value="₹25 Lakhs - ₹50 Lakhs" className="text-gray-900">₹25 Lakhs - ₹50 Lakhs (Master City Franchise)</option>
-                          <option value="₹50 Lakhs+" className="text-gray-900">₹50 Lakhs+ (State Master Franchise)</option>
+                          <option value="2-3 Lacs (Doorstep Carwash)" className="text-gray-900">2-3 Lacs (Doorstep Carwash)</option>
+                          <option value="5 to 10 Lacs (Semi manual outlet)" className="text-gray-900">5 to 10 Lacs (Semi manual outlet)</option>
+                          <option value="15 to 18 Lacs (Automatic Outlet)" className="text-gray-900">15 to 18 Lacs (Automatic Outlet)</option>
+                          <option value="15 Lacs (Master Doorstep Franchise)" className="text-gray-900">15 Lacs (Master Doorstep Franchise)</option>
                         </select>
                         {errors.investmentBudget && <p className="mt-1 text-xs text-red-400">{errors.investmentBudget.message}</p>}
-                      </div>
-
-                      {/* Dropdown 2: Preferred Franchise Model */}
-                      <div>
-                        <label className="block text-xs font-semibold text-gray-200 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                          <Building size={14} className="text-accent" /> Preferred Business Model
-                        </label>
-                        <select 
-                          {...register('franchiseType')}
-                          className="w-full px-4 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent text-sm"
-                        >
-                          <option value="Unit Franchise (Doorstep + Store)" className="text-gray-900">Unit Franchise (Doorstep + Storefront)</option>
-                          <option value="Doorstep Mobile Van Hub" className="text-gray-900">Doorstep Mobile Van Hub</option>
-                          <option value="Master City Franchise" className="text-gray-900">Master City Franchise (Multi-Unit)</option>
-                        </select>
                       </div>
 
                       {/* Additional Message */}

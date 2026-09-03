@@ -29,7 +29,7 @@ const AboutPage = () => {
               The {companyInfo.name} Journey
             </h1>
             <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto font-body leading-relaxed">
-              Founded in <strong>2025</strong> by <strong>Sultan</strong>, Premia Carwash was established with a singular mission: to bring showroom-grade car washing, ceramic polish, and deep sanitization directly to customer doorsteps across India.
+              Founded in <strong>2025</strong> by <strong>Sultan and Nitin Mukesh</strong>, & powered by <strong>Premia Group PVT. LTD.</strong> Premia Carwash is driven by a passion for excellence in automotive care. We deliver premium car cleaning, detailing, enhancement, and protection services, combining professional expertise with meticulous attention to detail. Our goal is simple — to make every vehicle look its finest and every customer experience truly exceptional.
             </p>
           </FadeIn>
         </div>
@@ -39,23 +39,23 @@ const AboutPage = () => {
           <FadeIn>
             <div className="bg-bg-dark text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-white/10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-4 text-center">
-                <div className="w-32 h-32 mx-auto rounded-3xl bg-gradient-to-tr from-primary-light to-accent flex items-center justify-center font-heading font-extrabold text-bg-dark text-4xl shadow-xl mb-4">
-                  S
+                <div className="w-32 h-32 mx-auto rounded-3xl bg-gradient-to-tr from-primary-light to-accent flex items-center justify-center font-heading font-extrabold text-bg-dark text-3xl shadow-xl mb-4">
+                  S & N
                 </div>
-                <h3 className="text-2xl font-heading font-extrabold text-white">Sultan</h3>
-                <span className="text-xs text-accent font-bold uppercase tracking-wider block mt-1">Founder & CEO</span>
+                <h3 className="text-2xl font-heading font-extrabold text-white">Sultan & Nitin Mukesh</h3>
+                <span className="text-xs text-accent font-bold uppercase tracking-wider block mt-1">Co-Founders</span>
                 <span className="inline-block mt-2 px-3 py-1 rounded-full bg-white/10 text-[11px] text-gray-300">Est. 2025</span>
               </div>
 
               <div className="md:col-span-8 space-y-4 text-gray-200 text-sm sm:text-base leading-relaxed">
                 <h4 className="text-xl font-heading font-bold text-white border-b border-white/15 pb-2">
-                  Founder's Vision
+                  Founders' Vision
                 </h4>
                 <p>
                   "In 2025, we recognized that car owners in India faced a major challenge: spending hours waiting at traditional service centers or settling for quick, scratch-inducing local washes. We founded <strong>Premia Carwash</strong> to redefine the experience."
                 </p>
                 <p>
-                  "By combining pH-neutral snow foam technology, scratch-free microfiber techniques, and 100% doorstep convenience, our team ensures your vehicle receives true white-glove treatment right outside your home or office."
+                  "By combining pH-neutral snow foam technology, scratch-free microfiber techniques, and 100% doorstep convenience, our team ensures your vehicle receives true white-glove treatment right outside your home or office. Together with co-founder Nitin Mukesh, powered by Premia Group PVT. LTD., we are building India's most trusted automotive care brand."
                 </p>
               </div>
             </div>

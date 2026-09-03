@@ -10,12 +10,12 @@ import companyInfo from '../../data/companyInfo';
 const Footer = () => {
   return (
     <footer className="bg-bg-dark text-text-light pt-16 pb-8 border-t border-primary-dark/30 mt-auto">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
         
         {/* Col 1: Logo + Tagline + Social Icons */}
         <div className="flex flex-col gap-4">
           <div className="bg-white px-3.5 py-2 rounded-xl shadow-lg border border-white/20 inline-block w-fit">
-            <img src="/images/navBarLogo.png" alt="Premia Carwash" className="h-16 md:h-20 w-auto object-contain max-w-[340px]" />
+            <img src="/images/logo.png" alt="Premia Carwash" className="h-14 md:h-16 w-auto object-contain max-w-[240px]" />
           </div>
           <p className="text-sm text-gray-300 leading-relaxed">
             {companyInfo.description}
@@ -38,20 +38,8 @@ const Footer = () => {
             )}
           </div>
         </div>
-        
-        {/* Col 2: Our Services */}
-        <div className="flex flex-col gap-3">
-          <h4 className="font-heading font-bold text-lg text-white mb-1">Our Services</h4>
-          <Link to="/services/car-wash" className="text-gray-400 hover:text-accent transition-colors text-sm">Car Wash & Detailing</Link>
-          <Link to="/services/car-wash/foam-wash" className="text-gray-400 hover:text-accent transition-colors text-xs pl-2">─ Foam Wash & Polish</Link>
-          <Link to="/services/car-wash/detailing" className="text-gray-400 hover:text-accent transition-colors text-xs pl-2">─ Full Interior Detailing</Link>
-          <Link to="/services/commercial" className="text-gray-400 hover:text-accent transition-colors text-sm mt-1">Commercial Cleaning</Link>
-          <Link to="/services/commercial/truck-cleaning" className="text-gray-400 hover:text-accent transition-colors text-xs pl-2">─ Fleet & Truck Wash</Link>
-          <Link to="/services/home" className="text-gray-400 hover:text-accent transition-colors text-sm mt-1">Home & Carpet Care</Link>
-          <Link to="/services/home/sofa-cleaning" className="text-gray-400 hover:text-accent transition-colors text-xs pl-2">─ Sofa Deep Cleaning</Link>
-        </div>
 
-        {/* Col 3: Quick Links Section */}
+        {/* Col 2: Quick Links Section */}
         <div className="flex flex-col gap-3">
           <h4 className="font-heading font-bold text-lg text-white mb-1">Quick Links</h4>
           <Link to="/about" className="text-gray-400 hover:text-accent transition-colors text-sm">About Premia</Link>
@@ -64,7 +52,7 @@ const Footer = () => {
           <Link to="/shipping-policy" className="text-gray-400 hover:text-accent transition-colors text-sm">Shipping & Delivery</Link>
         </div>
 
-        {/* Col 4: Contact Details (No Address) */}
+        {/* Col 3: Contact Details (No Address) */}
         <div className="flex flex-col gap-3">
           <h4 className="font-heading font-bold text-lg text-white mb-1">Contact Details</h4>
           <div className="flex items-center gap-3 text-sm text-gray-300">
@@ -78,10 +66,6 @@ const Footer = () => {
           <div className="flex items-center gap-3 text-sm text-gray-300">
             <Clock size={16} className="text-accent shrink-0" />
             <span>{companyInfo.businessHours}</span>
-          </div>
-          <div className="mt-2 p-3 rounded-2xl bg-white/5 border border-white/10 text-xs text-gray-300">
-            <span className="font-bold text-accent block mb-0.5">Founded in {companyInfo.foundedYear}</span>
-            <span>Founder: {companyInfo.founder.name}</span>
           </div>
         </div>
       </div>

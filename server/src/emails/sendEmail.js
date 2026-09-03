@@ -2,40 +2,47 @@ import nodemailer from 'nodemailer';
 import { env } from '../config/env.js';
 import { logger } from '../utils/logger.js';
 
-/**
- * Setup Gmail App Password for Nodemailer:
- * 1. Go to your Google Account (Manage your Google Account).
- * 2. Go to Security on the left panel.
- * 3. Under "Signing in to Google", ensure 2-Step Verification is turned ON.
- * 4. Search for "App passwords" in the top search bar.
- * 5. Select App "Mail" and Device "Other (Custom name)", enter "CarWashApp".
- * 6. Click Generate. A 16-character password will be displayed.
- * 7. Copy and paste it as SMTP_PASS in your .env file without spaces.
- * 8. Set SMTP_USER as your gmail address.
- */
+const isGmail = env.SMTP_HOST?.includes('gmail') || env.SMTP_USER?.includes('gmail');
 
-const transporter = nodemailer.createTransport({
-  host: env.SMTP_HOST,
-  port: env.SMTP_PORT,
-  secure: env.SMTP_PORT == 465,
-  auth: {
-    user: env.SMTP_USER,
-    pass: env.SMTP_PASS,
-  },
-});
+const transporter = nodemailer.createTransport(
+  isGmail
+    ? {
+        service: 'gmail',
+        auth: {
+          user: env.SMTP_USER,
+          pass: env.SMTP_PASS ? env.SMTP_PASS.replace(/\s+/g, '') : '',
+        },
+      }
+    : {
+        host: env.SMTP_HOST,
+        port: env.SMTP_PORT,
+        secure: env.SMTP_PORT == 465,
+        auth: {
+          user: env.SMTP_USER,
+          pass: env.SMTP_PASS ? env.SMTP_PASS.replace(/\s+/g, '') : '',
+        },
+      }
+);
 
 export const sendEmail = async (to, subject, html) => {
   try {
+    const cleanTo = String(to).trim();
+    if (!cleanTo || !cleanTo.includes('@')) {
+      logger.error(`Invalid recipient email: ${to}`);
+      return false;
+    }
+
     const info = await transporter.sendMail({
-      from: `"Car Wash Services" <${env.SMTP_USER}>`,
-      to,
+      from: `"Premia Carwash" <${env.SMTP_USER}>`,
+      to: cleanTo,
+      replyTo: env.ADMIN_EMAIL || env.SMTP_USER,
       subject,
       html,
     });
-    logger.info(`Email sent: ${info.messageId}`);
+    logger.info(`Email successfully dispatched to ${cleanTo}: ${info.messageId}`);
     return true;
   } catch (error) {
-    logger.error(`Error sending email: ${error.message}`);
+    logger.error(`Error sending email to ${to}: ${error.message}`);
     return false;
   }
 };

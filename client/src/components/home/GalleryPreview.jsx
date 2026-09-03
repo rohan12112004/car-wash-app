@@ -31,7 +31,7 @@ const galleryItems = [
     after: '/images/fleet_bus_wash.jpg',
   },
   {
-    title: 'Sofa & Upholstery Restoration',
+    title: 'Sofa and Carpet Restoration',
     service: 'Home Cleaning',
     before: '/images/carpet_cleaning.jpg',
     after: '/images/sofa_cleaning.jpg',

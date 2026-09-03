@@ -13,8 +13,8 @@ import RegisterForm from '../components/auth/RegisterForm';
 const RegisterPage = () => {
   return (
     <PageWrapper
-      title="Create Account | SparkleWash Pro"
-      description="Join SparkleWash Pro to easily book and manage your cleaning services."
+      title="Create Account | Premia Carwash"
+      description="Join Premia Carwash to easily book and manage your cleaning services."
     >
       <div className="min-h-screen flex pt-20">
         {/* Left Form Side */}
@@ -24,7 +24,7 @@ const RegisterPage = () => {
               <div className="mb-8">
                 <Link to="/" className="flex items-center space-x-2 text-primary-dark font-heading font-bold text-2xl mb-8">
                   <Sparkles className="w-8 h-8 text-primary" />
-                  <span>SparkleWash Pro</span>
+                  <span>Premia Carwash</span>
                 </Link>
                 <h2 className="text-3xl font-heading font-bold text-gray-900">Create an account</h2>
                 <p className="mt-2 text-sm text-gray-600 font-body">

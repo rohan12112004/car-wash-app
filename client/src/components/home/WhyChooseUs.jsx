@@ -20,7 +20,7 @@ const WhyChooseUs = () => {
   return (
     <section className="py-24 bg-white relative overflow-hidden">
       <div className="container mx-auto px-4">
-        <SectionHeading title="Why Choose EcoWash" subtitle="Our Advantage" />
+        <SectionHeading title="Why Choose Premia Carwash" subtitle="Our Advantage" />
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
           {features.map((feat, idx) => (

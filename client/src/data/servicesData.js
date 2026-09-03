@@ -50,7 +50,7 @@ const carWashServices = [
     icon: 'Droplets',
     heroImage: PLACEHOLDER_IMAGES.foamWash,
     // 👋 OWNER: Update pricing when finalized
-    price: { starting: 499, currency: '₹' },
+    price: { starting: 399, currency: '₹' },
     duration: '45 mins',
     features: [
       'pH-neutral premium snow foam application',
@@ -136,7 +136,7 @@ const carWashServices = [
     shortDescription: 'Professional paint correction and polishing for a mirror-like showroom finish.',
     icon: 'Gem',
     heroImage: PLACEHOLDER_IMAGES.polishing,
-    price: { starting: 1999, currency: '₹' },
+    price: { starting: 699, currency: '₹' },
     duration: '3-4 hours',
     features: [
       'Multi-stage paint correction process',
@@ -178,7 +178,7 @@ const carWashServices = [
     shortDescription: 'Complete interior & exterior detailing — the ultimate car care experience.',
     icon: 'Star',
     heroImage: PLACEHOLDER_IMAGES.detailing,
-    price: { starting: 4999, currency: '₹' },
+    price: { starting: 1299, currency: '₹' },
     duration: '6-8 hours',
     features: [
       'Complete exterior wash and decontamination',
@@ -221,7 +221,7 @@ const carWashServices = [
     shortDescription: 'Steam cleaning and extraction to eliminate odors, stains, and bacteria.',
     icon: 'Zap',
     heroImage: PLACEHOLDER_IMAGES.deepCleaning,
-    price: { starting: 2499, currency: '₹' },
+    price: { starting: 1599, currency: '₹' },
     duration: '4-5 hours',
     features: [
       'Hot steam cleaning for all surfaces',
@@ -270,7 +270,7 @@ const commercialServices = [
     shortDescription: 'Industrial-grade truck cleaning for fleet operators and logistics companies.',
     icon: 'Truck',
     heroImage: PLACEHOLDER_IMAGES.truck,
-    price: { starting: 1499, currency: '₹' },
+    price: { starting: 499, currency: '₹' },
     duration: '2-3 hours',
     features: [
       'Full exterior pressure wash and degreasing',
@@ -402,7 +402,7 @@ const homeCleaningServices = [
     shortDescription: 'Deep extraction cleaning for all sofa types — remove stains, allergens, and odors.',
     icon: 'Sofa',
     heroImage: PLACEHOLDER_IMAGES.sofa,
-    price: { starting: 999, currency: '₹' },
+    price: { starting: 699, currency: '₹' },
     duration: '1-2 hours',
     features: [
       'Hot water extraction deep cleaning',
@@ -425,7 +425,7 @@ const homeCleaningServices = [
       { question: 'Can you remove old stains?', answer: 'We can remove most stains including coffee, wine, ink, and food stains. Very old set-in stains may lighten significantly but might not fully disappear.' },
       { question: 'Is the cleaning safe for kids and pets?', answer: 'Absolutely! We use non-toxic, child-safe, and pet-friendly cleaning solutions.' },
       { question: 'Do you clean recliner sofas?', answer: 'Yes, we clean all types including recliners, sectionals, L-shaped, and modular sofas.' },
-      { question: 'How is pricing calculated?', answer: 'Pricing is based on the number of seats. A 3-seater sofa starts at ₹999. Contact us for a custom quote.' },
+      { question: 'How is pricing calculated?', answer: 'Pricing is based on the number of seats. A 3-seater sofa starts at ₹699. Contact us for a custom quote.' },
     ],
     relatedServices: ['carpet-cleaning', 'doormat-cleaning', 'tiles-cleaning'],
     beforeAfterImages: {
@@ -444,7 +444,7 @@ const homeCleaningServices = [
     shortDescription: 'Professional carpet extraction cleaning — restore vibrancy and eliminate allergens.',
     icon: 'LayoutGrid',
     heroImage: PLACEHOLDER_IMAGES.carpet,
-    price: { starting: 799, currency: '₹' },
+    price: { starting: 699, currency: '₹' },
     duration: '1-3 hours',
     features: [
       'Deep extraction cleaning technology',
@@ -485,7 +485,7 @@ const homeCleaningServices = [
     shortDescription: 'Deep clean your doormats — remove trapped dirt, bacteria, and odors.',
     icon: 'DoorOpen',
     heroImage: PLACEHOLDER_IMAGES.doormat,
-    price: { starting: 299, currency: '₹' },
+    price: { starting: 99, currency: '₹' },
     duration: '30-45 mins',
     features: [
       'Deep cleaning for all doormat types',
@@ -526,7 +526,7 @@ const homeCleaningServices = [
     shortDescription: 'Deep AC cleaning to improve efficiency, save electricity, and improve air quality.',
     icon: 'AirVent',
     heroImage: PLACEHOLDER_IMAGES.ac,
-    price: { starting: 599, currency: '₹' },
+    price: { starting: 499, currency: '₹' },
     duration: '1-1.5 hours',
     features: [
       'Complete disassembly and deep cleaning',
@@ -568,7 +568,7 @@ const homeCleaningServices = [
     shortDescription: 'Tank cleaning and sanitization for safe, clean drinking water.',
     icon: 'Container',
     heroImage: PLACEHOLDER_IMAGES.waterTank,
-    price: { starting: 999, currency: '₹' },
+    price: { starting: 599, currency: '₹' },
     duration: '2-3 hours',
     features: [
       'Complete tank draining and sludge removal',
@@ -793,7 +793,7 @@ const testimonials = [
     location: 'Delhi',
     rating: 5,
     service: 'Truck Cleaning',
-    text: 'We have a fleet of 30 trucks. SparkleWash Pro handles our monthly cleaning with precision. Their team understands commercial vehicle needs. Great fleet discounts too.',
+    text: 'We have a fleet of 30 trucks. Premia Carwash handles our monthly cleaning with precision. Their team understands commercial vehicle needs. Great fleet discounts too.',
     avatar: 'RK',
   },
   {
@@ -856,7 +856,7 @@ const generalFaqs = [
   },
   {
     question: 'What are your operating hours?',
-    answer: 'We operate 7 days a week, from 7:00 AM to 9:00 PM. Emergency and after-hours services are available at additional charges.',
+    answer: 'We operate Monday to Saturday, from 10:00 AM to 6:00 PM, Monday to Saturday. Emergency and after-hours services are available at additional charges.',
   },
   {
     question: 'Do you offer subscription or monthly plans?',
@@ -872,7 +872,7 @@ const franchiseBenefits = [
   {
     icon: 'TrendingUp',
     title: 'High ROI',
-    description: 'Average 40-60% annual returns with break-even in 8-12 months. The car wash industry in India is growing at 15% CAGR.',
+    description: 'Average 50-60% annual returns with break-even in 6 to 12 months. The car wash industry in India is growing at 15% CAGR.',
   },
   {
     icon: 'GraduationCap',

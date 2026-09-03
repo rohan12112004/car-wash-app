@@ -40,9 +40,9 @@ const Navbar = () => {
         {/* Logo — Horizontally Stretched for Crisp Legibility */}
         <Link to="/" className="flex items-center group shrink-0 py-0">
           <img
-            src="/images/navBarLogo.png"
+            src="/images/logo.png"
             alt="Premia Carwash"
-            className="h-10 sm:h-12 md:h-14 w-auto object-fill scale-x-115 origin-left max-w-[260px] xs:max-w-[320px] sm:max-w-[480px] md:max-w-[580px] transition-transform duration-200 group-hover:scale-x-120"
+            className="h-12 sm:h-14 md:h-16 w-auto object-contain max-w-[200px] sm:max-w-[240px] md:max-w-[280px] transition-transform duration-200 group-hover:scale-105"
           />
         </Link>
 

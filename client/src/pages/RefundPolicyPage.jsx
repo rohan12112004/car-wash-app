@@ -10,7 +10,7 @@ import FadeIn from '../components/animations/FadeIn';
 const RefundPolicyPage = () => {
   return (
     <PageWrapper
-      title="Refund Policy | SparkleWash Pro"
+      title="Refund Policy | Premia Carwash"
       description="Our policies regarding refunds and service guarantees."
     >
       <div className="bg-bg-light min-h-screen pt-32 pb-20">
@@ -22,15 +22,15 @@ const RefundPolicyPage = () => {
               </h1>
               
               <div className="space-y-6 text-gray-700 font-body">
-                <p><strong>Effective Date:</strong> January 2023</p>
+                <p><strong>Effective Date:</strong> 2025</p>
                 
-                <h2 className="text-xl font-bold text-primary-dark mt-8">1. SparkleWash Guarantee</h2>
+                <h2 className="text-xl font-bold text-primary-dark mt-8">1. Premia Carwash Guarantee</h2>
                 <p>We take pride in our work. If you are not completely satisfied with your cleaning service, please let us know within 24 hours of the service completion. We will gladly return to reclean the area in question at no additional charge.</p>
                 
                 <h2 className="text-xl font-bold text-primary-dark mt-8">2. Refund Eligibility</h2>
                 <p>Full or partial refunds may be issued under the following circumstances:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>If a scheduled service is cancelled by SparkleWash Pro and cannot be rescheduled to your satisfaction.</li>
+                  <li>If a scheduled service is cancelled by Premia Carwash and cannot be rescheduled to your satisfaction.</li>
                   <li>If you cancel your appointment at least 48 hours prior to the scheduled time.</li>
                   <li>In rare instances where a reclean does not resolve the issue, subject to management approval.</li>
                 </ul>
@@ -44,7 +44,7 @@ const RefundPolicyPage = () => {
                 </ul>
 
                 <h2 className="text-xl font-bold text-primary-dark mt-8">4. Process for Requesting a Refund</h2>
-                <p>To request a refund or raise a concern, please email our support team at support@sparklewashpro.com with your booking reference number, contact details, and a clear description (with photos if applicable) of the issue. We aim to review all requests within 3 business days.</p>
+                <p>To request a refund or raise a concern, please email our support team at premiacarwash@gmail.com with your booking reference number, contact details, and a clear description (with photos if applicable) of the issue. We aim to review all requests within 3 business days.</p>
               </div>
             </div>
           </FadeIn>

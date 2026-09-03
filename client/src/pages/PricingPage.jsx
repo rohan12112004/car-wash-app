@@ -23,7 +23,7 @@ const PricingPage = () => {
 
   return (
     <PageWrapper
-      title="Pricing & Packages | SparkleWash Pro"
+      title="Pricing & Packages | Premia Carwash"
       description="Transparent, competitive pricing for all our car wash, commercial, and home cleaning services."
     >
       <div className="bg-bg-light min-h-screen pt-32 pb-20">

@@ -1,6 +1,6 @@
 /**
  * @file HomePage.jsx
- * @description Main landing page for SparkleWash Pro with all homepage sections wrapped in ErrorBoundaries.
+ * @description Main landing page for Premia Carwash with all homepage sections wrapped in ErrorBoundaries.
  */
 
 import React from 'react';
@@ -22,8 +22,8 @@ import NewsletterSignup from '../components/home/NewsletterSignup';
 const HomePage = () => {
   return (
     <PageWrapper
-      title="SparkleWash Pro | Premium Car Wash & Cleaning Services"
-      description="Experience the best car wash, commercial cleaning, and home cleaning services with SparkleWash Pro. Book online today!"
+      title="Premia Carwash | Premium Car Wash & Cleaning Services"
+      description="Experience the best car wash, commercial cleaning, and home cleaning services with Premia Carwash. Book online today!"
     >
       <ErrorBoundary><Hero /></ErrorBoundary>
       <ErrorBoundary><ServicesGrid /></ErrorBoundary>

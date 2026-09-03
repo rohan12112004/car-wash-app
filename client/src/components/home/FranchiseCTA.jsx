@@ -31,7 +31,7 @@ const FranchiseCTA = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      investmentBudget: '₹10 Lakhs - ₹25 Lakhs',
+      investmentBudget: '2-3 Lacs (Doorstep Carwash)',
       state: 'Uttar Pradesh',
     }
   });
@@ -222,10 +222,10 @@ const FranchiseCTA = () => {
                         {...register('investmentBudget')}
                         className="w-full px-3 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:border-accent text-xs"
                       >
-                        <option value="₹5 Lakhs - ₹10 Lakhs" className="text-gray-900">₹5 Lakhs - ₹10 Lakhs</option>
-                        <option value="₹10 Lakhs - ₹25 Lakhs" className="text-gray-900">₹10 Lakhs - ₹25 Lakhs</option>
-                        <option value="₹25 Lakhs - ₹50 Lakhs" className="text-gray-900">₹25 Lakhs - ₹50 Lakhs</option>
-                        <option value="₹50 Lakhs+" className="text-gray-900">₹50 Lakhs+</option>
+                        <option value="2-3 Lacs (Doorstep Carwash)" className="text-gray-900">2-3 Lacs (Doorstep Carwash)</option>
+                        <option value="5 to 10 Lacs (Semi manual outlet)" className="text-gray-900">5 to 10 Lacs (Semi manual outlet)</option>
+                        <option value="15 to 18 Lacs (Automatic Outlet)" className="text-gray-900">15 to 18 Lacs (Automatic Outlet)</option>
+                        <option value="15 Lacs (Master Doorstep Franchise)" className="text-gray-900">15 Lacs (Master Doorstep Franchise)</option>
                       </select>
                     </div>
 

@@ -40,8 +40,8 @@ const ContactPage = () => {
 
   return (
     <PageWrapper
-      title="Contact Us | SparkleWash Pro"
-      description="Get in touch with SparkleWash Pro for inquiries, support, or feedback."
+      title="Contact Us | Premia Carwash"
+      description="Get in touch with Premia Carwash for inquiries, support, or feedback."
     >
       <div className="bg-bg-light min-h-screen pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -148,7 +148,7 @@ const ContactPage = () => {
                     {/* Placeholder for map embed */}
                     <iframe 
                       title="location"
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.2528000654!2d-74.14448744577884!3d40.69763123330364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1698765432100!5m2!1sen!2sin" 
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14014.234721899498!2d77.0698!3d28.6219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d04b2e6a4bbc3%3A0x91f76e3c2a3a8b50!2sJanakpuri%2C%20New%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1698765432100!5m2!1sen!2sin" 
                       width="100%" 
                       height="100%" 
                       style={{ border: 0 }} 

@@ -15,7 +15,7 @@ const BookingPage = () => {
   
   return (
     <PageWrapper
-      title="Book a Service | SparkleWash Pro"
+      title="Book a Service | Premia Carwash"
       description="Schedule your car wash or cleaning service online in minutes."
     >
       <div className="bg-bg-light min-h-screen pt-32 pb-20 relative overflow-hidden">

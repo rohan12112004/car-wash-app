@@ -13,7 +13,7 @@ import LoginForm from '../components/auth/LoginForm';
 const LoginPage = () => {
   return (
     <PageWrapper
-      title="Login | SparkleWash Pro"
+      title="Login | Premia Carwash"
       description="Sign in to manage your bookings and account."
     >
       <div className="min-h-screen flex pt-20">
@@ -24,7 +24,7 @@ const LoginPage = () => {
               <div className="mb-8">
                 <Link to="/" className="flex items-center space-x-2 text-primary-dark font-heading font-bold text-2xl mb-8">
                   <Sparkles className="w-8 h-8 text-primary" />
-                  <span>SparkleWash Pro</span>
+                  <span>Premia Carwash</span>
                 </Link>
                 <h2 className="text-3xl font-heading font-bold text-gray-900">Welcome back</h2>
                 <p className="mt-2 text-sm text-gray-600 font-body">

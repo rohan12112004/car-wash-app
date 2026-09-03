@@ -47,9 +47,9 @@ const SUB_TYPES = {
     { id: 'heavy', name: 'Heavy Machinery', desc: 'Dumpers, tractors, earthmovers', icon: Building2 },
   ],
   'Home Care': [
-    { id: 'sofa', name: 'Sofa & Upholstery', desc: 'Fabric & leather couch deep shampooing', icon: Sofa },
-    { id: 'carpet', name: 'Carpet & Rugs', desc: 'High-suction carpet shampooing', icon: Sofa },
-    { id: 'specialized', name: 'Specialized Cleaning', desc: 'AC, Solar panels, Water tank, Chimney, Tiles', icon: Sparkles },
+    { id: 'sofa', name: 'Sofa and Carpet', desc: 'Fabric & leather couch deep shampooing', icon: Sofa },
+    { id: 'carpet', name: 'AC Cleaning', desc: 'Deep AC cleaning to improve efficiency', icon: AirVent },
+    { id: 'specialized', name: 'Water Tank and Solar', desc: 'Water tank sanitization, solar panel, chimney & tiles', icon: Sun },
   ],
 };
 
@@ -80,12 +80,52 @@ const BookingWizard = ({ initialServiceSlug }) => {
     specialInstructions: '',
   });
 
-  // Active Category Slug
-  const activeCategorySlug = formData.category === 'Car Wash' ? 'car-wash' :
-                             formData.category === 'Commercial' ? 'commercial' : 'home';
+  // Filtered Services matching the selected Category AND Sub-Type
+  const getFilteredServices = () => {
+    if (formData.category === 'Car Wash') {
+      return allServices.filter(s => s.categorySlug === 'car-wash');
+    }
+    if (formData.category === 'Commercial') {
+      if (formData.subType === 'fleet') {
+        return [
+          allServices.find(s => s.id === 'truck-cleaning') || { id: 'truck-cleaning', name: 'Truck Cleaning', shortDescription: 'Industrial-grade truck cleaning for logistics and fleets.', price: { starting: 499, currency: '₹' } },
+          allServices.find(s => s.id === 'luxury-bus-cleaning') || { id: 'luxury-bus-cleaning', name: 'Luxury Bus Cleaning', shortDescription: 'Premium bus and coach cleaning for fleets.', price: { starting: 3999, currency: '₹' } },
+        ].filter(Boolean);
+      }
+      if (formData.subType === 'office') {
+        return [
+          { id: 'office-deep-clean', name: 'Office & Workspace Deep Cleaning', shortDescription: 'Complete corporate space sanitization, workstation dusting, and vacuuming.', price: { starting: 1999, currency: '₹' } },
+          { id: 'retail-showroom-clean', name: 'Retail Store & Showroom Cleaning', shortDescription: 'High-traffic retail floor polishing, glass cleaning, and display care.', price: { starting: 2499, currency: '₹' } },
+          { id: 'commercial-carpet-clean', name: 'Commercial Carpet & Floor Scrubbing', shortDescription: 'Industrial rotary scrubber wash and carpet hot water extraction.', price: { starting: 1499, currency: '₹' } },
+        ];
+      }
+      if (formData.subType === 'heavy') {
+        return [
+          allServices.find(s => s.id === 'dumper-cleaning') || { id: 'dumper-cleaning', name: 'Dumper Cleaning', shortDescription: 'Heavy-duty dumper and construction vehicle cleaning.', price: { starting: 1999, currency: '₹' } },
+          { id: 'heavy-machinery-wash', name: 'Heavy Machinery & Earthmover Wash', shortDescription: 'High-PSI pressure washing for JCBs, excavators, and tractors.', price: { starting: 2499, currency: '₹' } },
+        ].filter(Boolean);
+      }
+      return allServices.filter(s => s.categorySlug === 'commercial');
+    }
+    if (formData.category === 'Home Care') {
+      if (formData.subType === 'sofa') {
+        return allServices.filter(s => ['sofa-cleaning', 'carpet-cleaning', 'doormat-cleaning'].includes(s.id));
+      }
+      if (formData.subType === 'carpet') { // AC Cleaning
+        return [
+          { id: 'window-ac-clean', name: 'Window AC Deep Cleaning', shortDescription: 'Pressure washer foam wash and coil disinfection.', price: { starting: 499, currency: '₹' } },
+          { id: 'split-ac-clean', name: 'Split AC Deep Cleaning', shortDescription: 'Complete indoor & outdoor unit foam cleaning.', price: { starting: 599, currency: '₹' } },
+        ];
+      }
+      if (formData.subType === 'specialized') { // Water Tank and Solar
+        return allServices.filter(s => ['water-tank-cleaning', 'solar-panel-cleaning', 'chimney-cleaning', 'tiles-cleaning'].includes(s.id));
+      }
+      return allServices.filter(s => s.categorySlug === 'home');
+    }
+    return allServices;
+  };
 
-  // Strictly Filtered Services matching the selected Category
-  const filteredServices = allServices.filter(s => s.categorySlug === activeCategorySlug);
+  const filteredServices = getFilteredServices();
 
   const handleNext = async () => {
     // Step 1 Validation
@@ -274,7 +314,7 @@ const BookingWizard = ({ initialServiceSlug }) => {
                     return (
                       <div
                         key={st.id}
-                        onClick={() => setFormData({...formData, subType: st.id})}
+                        onClick={() => setFormData({...formData, subType: st.id, service: '', serviceObj: null})}
                         className={`p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
                           isSelected ? 'border-primary bg-primary/5 shadow-md ring-2 ring-primary/20 scale-102' : 'border-gray-200 hover:border-primary/40'
                         }`}

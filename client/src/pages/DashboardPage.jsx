@@ -18,7 +18,7 @@ const DashboardPage = () => {
 
   return (
     <PageWrapper
-      title="My Dashboard | SparkleWash Pro"
+      title="My Dashboard | Premia Carwash"
       description="Manage your bookings and account settings."
     >
       <div className="bg-bg-light min-h-screen pt-32 pb-20">

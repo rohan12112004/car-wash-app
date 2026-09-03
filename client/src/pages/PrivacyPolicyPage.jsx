@@ -10,7 +10,7 @@ import FadeIn from '../components/animations/FadeIn';
 const PrivacyPolicyPage = () => {
   return (
     <PageWrapper
-      title="Privacy Policy | SparkleWash Pro"
+      title="Privacy Policy | Premia Carwash"
       description="Read our privacy policy to understand how we handle your data."
     >
       <div className="bg-bg-light min-h-screen pt-32 pb-20">
@@ -22,10 +22,10 @@ const PrivacyPolicyPage = () => {
               </h1>
               
               <div className="space-y-6 text-gray-700 font-body">
-                <p><strong>Last Updated:</strong> October 2023</p>
+                <p><strong>Last Updated:</strong> 2025</p>
                 
                 <h2 className="text-xl font-bold text-primary-dark mt-8">1. Introduction</h2>
-                <p>Welcome to SparkleWash Pro. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights.</p>
+                <p>Welcome to Premia Carwash. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights.</p>
                 
                 <h2 className="text-xl font-bold text-primary-dark mt-8">2. The Data We Collect About You</h2>
                 <p>We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:</p>
@@ -48,7 +48,7 @@ const PrivacyPolicyPage = () => {
                 <p>We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorised way, altered or disclosed. In addition, we limit access to your personal data to those employees, agents, contractors and other third parties who have a business need to know.</p>
 
                 <h2 className="text-xl font-bold text-primary-dark mt-8">5. Contact Us</h2>
-                <p>If you have any questions about this privacy policy or our privacy practices, please contact us at privacy@sparklewashpro.com.</p>
+                <p>If you have any questions about this privacy policy or our privacy practices, please contact us at premiacarwash@gmail.com.</p>
               </div>
             </div>
           </FadeIn>

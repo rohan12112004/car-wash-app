@@ -25,7 +25,7 @@ const NotFoundPage = () => {
 
   return (
     <PageWrapper
-      title="404 - Page Not Found | SparkleWash Pro"
+      title="404 - Page Not Found | Premia Carwash"
       description="The page you are looking for does not exist."
     >
       <div className="min-h-screen bg-bg-dark flex items-center justify-center relative overflow-hidden px-4">

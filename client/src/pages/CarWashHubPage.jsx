@@ -11,7 +11,7 @@ import { carWashServices } from '../data/servicesData';
 const CarWashHubPage = () => {
   return (
     <PageWrapper
-      title="Car Wash Services | SparkleWash Pro"
+      title="Car Wash Services | Premia Carwash"
       description="Professional car washing and auto detailing services."
     >
       <CategoryHub 

@@ -5,14 +5,14 @@
 const companyInfo = {
   name: 'Premia Carwash',
   tagline: 'India\'s Premier Doorstep Carwash, Detailing & Cleaning Brand',
-  description: 'Founded in 2025 by Sultan, Premia Carwash delivers luxury-grade doorstep car washing, interior detailing, commercial vehicle care, and home cleaning across India.',
+  description: 'Founded in 2025 by Sultan and Nitin Mukesh, & powered by Premia Group PVT. LTD. Premia Carwash is driven by a passion for excellence in automotive care. We deliver premium car cleaning, detailing, enhancement, and protection services, combining professional expertise with meticulous attention to detail.',
   
   phone: '+91 8882670676',
   email: 'premiacarwash@gmail.com',
   whatsapp: '918882670676',
   
   address: '', // Address removed per requirement #2
-  businessHours: 'Mon - Sun: 7:00 AM - 9:00 PM',
+  businessHours: 'Mon - Sat: 10:00 AM - 6:00 PM',
   foundedYear: '2025',
   
   social: {
@@ -25,9 +25,9 @@ const companyInfo = {
   gst: 'GSTIN: 09PREMIA1234X1Z5',
   
   founder: {
-    name: 'Sultan',
-    title: 'Founder & CEO',
-    bio: 'Founded in 2025 by Sultan, Premia Carwash was created with a mission to deliver luxury-grade doorstep vehicle washing and premium eco-friendly cleaning services.',
+    name: 'Sultan and Nitin Mukesh',
+    title: 'Co-Founders',
+    bio: 'Founded in 2025 by Sultan and Nitin Mukesh, & powered by Premia Group PVT. LTD. Premia Carwash is driven by a passion for excellence in automotive care.',
   },
   
   areasServed: [
@@ -38,8 +38,8 @@ const companyInfo = {
   ],
   
   stats: {
-    carsWashed: 12000,
-    happyCustomers: 6500,
+    carsWashed: 25000,
+    happyCustomers: 10000,
     franchisePartners: 55,
     citiesCovered: 20,
     yearsExperience: 2,
@@ -47,10 +47,10 @@ const companyInfo = {
   },
   
   franchiseInvestment: {
-    min: '₹5,00,000',
-    max: '₹25,00,000',
-    averageROI: '40-60% annually',
-    breakEven: '8-12 months',
+    min: '₹3,00,000',
+    max: '₹17,00,000',
+    averageROI: '50-60% annually',
+    breakEven: '6 to 12 months',
   },
 
   copyrightYear: new Date().getFullYear(),
