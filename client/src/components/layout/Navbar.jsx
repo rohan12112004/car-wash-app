@@ -38,12 +38,12 @@ const Navbar = () => {
         : 'bg-white border-b border-[#0B3D2E]/8 shadow-sm py-1.5'
     }`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
-        {/* Logo — Horizontally Stretched for Crisp Legibility */}
+        {/* Logo — Original Proportions, Crisp & Naturally Sized */}
         <Link to="/" className="flex items-center group shrink-0 py-0 mr-4 sm:mr-6 md:mr-8">
           <img
             src="/images/logo.png"
             alt="Premia Carwash"
-            className="h-10 sm:h-11 md:h-12 w-[160px] xs:w-[190px] sm:w-[230px] md:w-[270px] lg:w-[300px] object-fill origin-left transition-transform duration-200 group-hover:scale-[1.03]"
+            className="h-11 sm:h-13 md:h-14 lg:h-15 w-auto object-contain max-w-[190px] sm:max-w-[230px] md:max-w-[260px] transition-transform duration-200 group-hover:scale-105"
           />
         </Link>
 
