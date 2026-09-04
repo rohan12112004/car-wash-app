@@ -16,7 +16,7 @@ export const env = {
   SMTP_USER: process.env.SMTP_USER || 'premiacarwash@gmail.com',
   SMTP_PASS: process.env.SMTP_PASS || 'lyrw fxdw pjqs adbl',
   ADMIN_EMAIL: process.env.ADMIN_EMAIL || 'premiacarwash@gmail.com',
-  FRONTEND_URL: process.env.FRONTEND_URL || 'https://car-wash-app-chi.vercel.app',
+  FRONTEND_URL: process.env.FRONTEND_URL || 'https://premiacarwash.com',
   RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID || 'rzp_test_dummy',
   RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET || 'dummy_secret',
 };
