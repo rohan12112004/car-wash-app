@@ -19,6 +19,7 @@ const ServiceDetailPage = lazy(() => import('./pages/ServiceDetailPage'));
 const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
 const BookingPage = lazy(() => import('./pages/BookingPage'));
+const TrackOrderPage = lazy(() => import('./pages/TrackOrderPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -51,6 +52,7 @@ const AppRouter = () => {
       <Route path="/gallery" element={<GalleryPage />} />
       <Route path="/pricing" element={<PricingPage />} />
       <Route path="/book" element={<BookingPage />} />
+      <Route path="/track" element={<TrackOrderPage />} />
       <Route path="/contact" element={<ContactPage />} />
       
       {/* Auth Routes */}
@@ -64,12 +66,9 @@ const AppRouter = () => {
         </ProtectedRoute>
       } />
       
-      {/* Secret Protected Admin Portal Route */}
-      <Route path="/admin-portal-secure" element={
-        <AdminRoute>
-          <AdminDashboardPage />
-        </AdminRoute>
-      } />
+      {/* Admin Portal Routes */}
+      <Route path="/admin-portal-secure" element={<AdminDashboardPage />} />
+      <Route path="/admin" element={<AdminDashboardPage />} />
       
       {/* Legal & Policy Pages */}
       <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />

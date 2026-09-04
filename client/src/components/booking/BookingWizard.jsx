@@ -57,6 +57,7 @@ const BookingWizard = ({ initialServiceSlug }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [confirmedBooking, setConfirmedBooking] = useState(null);
 
   // Derive initial values if initialized with a service slug
   const initialServiceObj = initialServiceSlug ? allServices.find(s => s.slug === initialServiceSlug) : null;
@@ -177,14 +178,18 @@ const BookingWizard = ({ initialServiceSlug }) => {
           amount: Number(formData.serviceObj?.price?.starting) || 499,
         };
 
-        await api.post('/bookings', payload);
+        const res = await api.post('/bookings', payload);
+        const createdData = res.data?.data;
+        if (createdData) {
+          setConfirmedBooking(createdData);
+        }
 
         try {
           confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
         } catch (e) {}
 
         setIsSuccess(true);
-        toast.success('Premia Carwash Booking Confirmed! Confirmation email dispatched.');
+        toast.success(`Booking Confirmed! Order ID: ${createdData?.orderId || ''}`);
       } catch (err) {
         console.error('Booking error:', err);
         const errMsg = err.response?.data?.message || err.message || 'Failed to submit booking. Please try again.';
@@ -201,15 +206,51 @@ const BookingWizard = ({ initialServiceSlug }) => {
   const handlePrev = () => setCurrentStep(prev => Math.max(1, prev - 1));
 
   if (isSuccess) {
+    const orderIdToShow = confirmedBooking?.orderId;
+
     return (
       <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-center py-12 px-6">
         <CheckCircle2 size={80} className="text-primary-light mx-auto mb-6 animate-bounce" />
         <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-primary-dark mb-3">Booking Confirmed!</h2>
         <p className="text-gray-600 text-base max-w-lg mx-auto mb-6">
-          Thank you for choosing <strong>{companyInfo.name}</strong>. A confirmation email has been sent to <strong>{formData.contactEmail}</strong>.
+          Thank you for choosing <strong>{companyInfo.name}</strong>. A confirmation email with order details has been dispatched to <strong>{formData.contactEmail}</strong>.
         </p>
 
+        {/* Tracking Order ID Badge */}
+        {orderIdToShow && (
+          <div className="inline-block bg-gradient-to-r from-emerald-50 via-green-50 to-emerald-50 border-2 border-emerald-500/40 rounded-3xl p-6 mb-8 max-w-md mx-auto shadow-md">
+            <span className="text-xs text-gray-500 uppercase tracking-widest font-bold block mb-1">
+              Your Tracking Order ID
+            </span>
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-2xl sm:text-3xl font-heading font-extrabold text-primary-dark tracking-wider">
+                {orderIdToShow}
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  navigator.clipboard.writeText(orderIdToShow);
+                  toast.success('Order ID copied to clipboard!');
+                }}
+                className="px-2.5 py-1 rounded-lg bg-white border border-gray-300 text-gray-700 hover:text-primary hover:border-primary transition-all text-xs font-bold shadow-sm"
+                title="Copy Order ID"
+              >
+                Copy
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 mt-2">
+              Save this Order ID to track your doorstep service status.
+            </p>
+          </div>
+        )}
+
         <div className="bg-bg-light rounded-3xl p-6 border border-gray-200 text-left max-w-md mx-auto mb-8 space-y-2.5 text-sm shadow-sm">
+          {orderIdToShow && (
+            <div className="flex justify-between border-b pb-2">
+              <span className="text-gray-500">Order ID:</span>
+              <span className="font-extrabold text-primary">{orderIdToShow}</span>
+            </div>
+          )}
           <div className="flex justify-between border-b pb-2">
             <span className="text-gray-500">Service Category:</span>
             <span className="font-bold text-primary-dark">{formData.category}</span>
@@ -232,8 +273,16 @@ const BookingWizard = ({ initialServiceSlug }) => {
           </div>
         </div>
 
-        <div className="flex justify-center gap-4">
-          <Button onClick={() => window.location.href = '/'} className="px-8 bg-gradient-primary text-white">
+        <div className="flex flex-col sm:flex-row justify-center gap-3">
+          {orderIdToShow && (
+            <Button
+              onClick={() => window.location.href = `/track?id=${orderIdToShow}`}
+              className="px-6 py-3 bg-gradient-primary text-white font-bold"
+            >
+              Track Order Status →
+            </Button>
+          )}
+          <Button variant="outline" onClick={() => window.location.href = '/'} className="px-6 py-3">
             Return to Homepage
           </Button>
         </div>

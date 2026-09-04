@@ -48,8 +48,13 @@ export const sendLoginAlertEmail = async (adminEmail, user) => {
 };
 
 export const sendBookingEmail = async (booking, adminEmail) => {
+  const orderIdDisplay = booking.orderId || 'Pending Allocation';
   const details = `
-    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 16px; border-radius: 8px; margin: 16px 0;">
+    <div style="background: #f0fdf4; border: 2px solid #22c55e; padding: 18px; border-radius: 10px; margin: 16px 0;">
+      <div style="background: #0B3D2E; color: #ffffff; padding: 8px 14px; border-radius: 6px; margin-bottom: 14px; display: inline-block;">
+        <span style="font-size: 11px; letter-spacing: 1px; text-transform: uppercase; display: block; opacity: 0.85;">Tracking Order ID</span>
+        <span style="font-size: 18px; font-weight: bold; letter-spacing: 1.5px;">${orderIdDisplay}</span>
+      </div>
       <p style="margin: 4px 0;"><strong>Service Package:</strong> ${booking.service}</p>
       <p style="margin: 4px 0;"><strong>Vehicle Category:</strong> ${booking.vehicleType || 'Standard'}</p>
       <p style="margin: 4px 0;"><strong>Appointment Date:</strong> ${booking.date}</p>
@@ -64,15 +69,16 @@ export const sendBookingEmail = async (booking, adminEmail) => {
   const userHtml = wrapLayout(`
     <h3 style="color: #0B3D2E;">Doorstep Booking Confirmed!</h3>
     <p>Dear ${booking.contactName},</p>
-    <p>Thank you for booking with <strong>Premia Carwash</strong>. Your doorstep service request has been confirmed. Our detailing team will arrive within 20 mins of your slot start time.</p>
+    <p>Thank you for booking with <strong>Premia Carwash</strong>. Your doorstep service request has been confirmed with Tracking Order ID: <strong style="color: #0B3D2E; font-size: 16px;">${orderIdDisplay}</strong>.</p>
+    <p>Our professional detailing technician will arrive within 20 mins of your slot start time.</p>
     ${details}
-    <p>Need to modify your appointment? Call us anytime at <strong>+91 8882670676</strong>.</p>
+    <p>You can track your order status anytime using your Order ID <strong>${orderIdDisplay}</strong> on our website or by contacting our hotline at <strong>+91 8882670676</strong>.</p>
   `);
 
   // 2. Email to Company Inbox (Admin Notification)
   const adminHtml = wrapLayout(`
     <h3 style="color: #0B3D2E;">🚨 New Doorstep Booking Received!</h3>
-    <p>A new customer booking has been placed:</p>
+    <p>A new customer booking has been placed with Order ID: <strong style="color: #0B3D2E; font-size: 16px;">${orderIdDisplay}</strong></p>
     ${details}
     <p><strong>Customer Name:</strong> ${booking.contactName} (${booking.contactEmail})</p>
   `);
@@ -81,10 +87,10 @@ export const sendBookingEmail = async (booking, adminEmail) => {
   const dispatches = [];
   const customerEmail = booking.contactEmail?.trim();
   if (customerEmail) {
-    dispatches.push(sendEmail(customerEmail, 'Premia Carwash — Booking Confirmation', userHtml));
+    dispatches.push(sendEmail(customerEmail, `Premia Carwash — Booking Confirmation [${orderIdDisplay}]`, userHtml));
   }
   if (adminEmail?.trim()) {
-    dispatches.push(sendEmail(adminEmail.trim(), '🚨 New Booking Received — Premia Carwash', adminHtml));
+    dispatches.push(sendEmail(adminEmail.trim(), `🚨 New Booking Received [${orderIdDisplay}] — Premia Carwash`, adminHtml));
   }
 
   await Promise.allSettled(dispatches);

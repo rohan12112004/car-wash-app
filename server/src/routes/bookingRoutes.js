@@ -6,6 +6,7 @@ import {
   updateBookingStatus,
   deleteBooking,
   getAllBookings,
+  trackBooking,
 } from '../controllers/bookingController.js';
 import { protect } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
@@ -13,8 +14,9 @@ import { createBookingSchema } from '../validators/bookingValidators.js';
 
 const router = express.Router();
 
-// Static routes MUST come before parameter routes (/:id)
+// Static routes & tracking route (MUST come before /:id)
 router.get('/all', getAllBookings);
+router.get('/track/:query', trackBooking);
 router.post('/', validate(createBookingSchema), createBooking);
 
 // Parameter routes

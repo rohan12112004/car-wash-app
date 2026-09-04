@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const bookingSchema = new mongoose.Schema(
   {
+    orderId: { type: String, unique: true, sparse: true, index: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
     service: { type: String, required: true },
     category: { type: String, required: true },

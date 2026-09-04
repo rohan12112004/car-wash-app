@@ -27,6 +27,7 @@ const Navbar = () => {
     { name: 'Gallery', path: '/gallery' },
     { name: 'Franchise', path: '/franchise' },
     { name: 'Pricing', path: '/pricing' },
+    { name: 'Track Order', path: '/track' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -38,23 +39,23 @@ const Navbar = () => {
     }`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo — Horizontally Stretched for Crisp Legibility */}
-        <Link to="/" className="flex items-center group shrink-0 py-0 mr-6 sm:mr-10 md:mr-12">
+        <Link to="/" className="flex items-center group shrink-0 py-0 mr-4 sm:mr-6 md:mr-8">
           <img
             src="/images/logo.png"
             alt="Premia Carwash"
-            className="h-10 sm:h-11 md:h-12 w-auto object-contain scale-x-125 sm:scale-x-135 md:scale-x-140 origin-left transition-transform duration-200 group-hover:scale-x-145"
+            className="h-10 sm:h-11 md:h-12 w-[160px] xs:w-[190px] sm:w-[230px] md:w-[270px] lg:w-[300px] object-fill origin-left transition-transform duration-200 group-hover:scale-[1.03]"
           />
         </Link>
 
         {/* Desktop Navigation Links — dark green to match logo text */}
-        <nav className="hidden lg:flex items-center gap-5">
+        <nav className="hidden lg:flex items-center gap-2.5 xl:gap-4">
           {links.map((link) => {
             const isActive = location.pathname === link.path;
             return (
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-xs sm:text-sm font-semibold transition-all duration-200 relative py-1 ${
+                className={`text-[11px] xl:text-xs 2xl:text-sm font-semibold transition-all duration-200 relative py-1 ${
                   isActive
                     ? 'text-[#0B3D2E] font-bold'
                     : 'text-[#0B3D2E]/70 hover:text-[#0B3D2E]'

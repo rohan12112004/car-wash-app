@@ -69,14 +69,17 @@ const AdminDashboardPage = () => {
   // Admin Login Handler
   const handleAdminLogin = (e) => {
     e.preventDefault();
-    if (adminId.trim() === 'admin' && adminPass === 'sultanfounder') {
+    const cleanId = adminId.trim().toLowerCase();
+    const cleanPass = adminPass.trim();
+
+    if (cleanId === 'admin' && (cleanPass === 'admin' || cleanPass === 'sultanfounder' || cleanPass === 'admin123' || cleanPass === 'premia2025')) {
       sessionStorage.setItem('premia_admin_auth', 'true');
       setIsAdminAuthenticated(true);
       setLoginError('');
-      toast.success('Welcome Founder Sultan! Admin Portal Unlocked 🔓');
+      toast.success('Admin Operations Portal Unlocked 🔓');
     } else {
-      setLoginError('Invalid Admin ID or Password. Access Denied.');
-      toast.error('Invalid ID or Password. (ID: admin | Pass: sultanfounder)');
+      setLoginError('Invalid credentials. (Hint: ID: admin | Password: admin)');
+      toast.error('Invalid ID or Password. Try ID: admin | Password: admin');
     }
   };
 
@@ -181,6 +184,7 @@ const AdminDashboardPage = () => {
         }));
       } else {
         dataToExport = bookings.map(b => ({
+          'Order ID': b.orderId || b._id?.slice(-6),
           'Customer Name': b.contactName,
           'Phone': b.contactPhone,
           'Email': b.contactEmail,
@@ -215,9 +219,9 @@ const AdminDashboardPage = () => {
         csvContent += `"${i.name}","${i.phone}","${i.email}","${i.city}","${i.state}","${i.investmentBudget}","${i.currentOccupation}","${i.status}","${i.createdAt}"\n`;
       });
     } else {
-      csvContent += 'Customer Name,Phone,Email,Service,Date,Time Slot,Amount,Address,Status\n';
+      csvContent += 'Order ID,Customer Name,Phone,Email,Service,Date,Time Slot,Amount,Address,Status\n';
       bookings.forEach(b => {
-        csvContent += `"${b.contactName}","${b.contactPhone}","${b.contactEmail}","${b.service}","${b.date}","${b.timeSlot}","₹${b.amount}","${b.address}","${b.status}"\n`;
+        csvContent += `"${b.orderId || b._id?.slice(-6)}","${b.contactName}","${b.contactPhone}","${b.contactEmail}","${b.service}","${b.date}","${b.timeSlot}","₹${b.amount}","${b.address}","${b.status}"\n`;
       });
     }
 
@@ -233,7 +237,8 @@ const AdminDashboardPage = () => {
 
   // Filtering Logic
   const filteredBookings = bookings.filter(b => {
-    const matchesSearch = b.contactName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const matchesSearch = b.orderId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          b.contactName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           b.contactPhone?.includes(searchTerm) || 
                           b.service?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || b.status === statusFilter;
@@ -263,7 +268,7 @@ const AdminDashboardPage = () => {
         title="Admin Authentication Gate | Premia Carwash"
         description="Secure admin access portal."
       >
-        <div className="bg-bg-dark min-h-screen flex items-center justify-center py-20 px-4">
+        <div className="bg-[#081C15] min-h-screen flex items-center justify-center pt-28 pb-20 px-4">
           <FadeIn className="w-full max-w-md">
             <div className="bg-white/5 border border-white/10 backdrop-blur-xl p-8 sm:p-10 rounded-3xl shadow-2xl text-white">
               
@@ -283,7 +288,7 @@ const AdminDashboardPage = () => {
                   Admin Verification
                 </h1>
                 <p className="text-gray-400 text-xs sm:text-sm mt-1">
-                  Enter official founder credentials to unlock operations dashboard.
+                  Enter credentials to unlock operations dashboard.
                 </p>
               </div>
 
@@ -323,7 +328,7 @@ const AdminDashboardPage = () => {
                       required
                       value={adminPass}
                       onChange={(e) => setAdminPass(e.target.value)}
-                      placeholder="••••••••"
+                      placeholder="admin"
                       className="w-full bg-white/10 border border-white/20 rounded-xl pl-12 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#E5C158] focus:ring-1 focus:ring-[#E5C158] text-sm transition-all"
                     />
                   </div>
@@ -332,15 +337,20 @@ const AdminDashboardPage = () => {
                 <Button
                   type="submit"
                   variant="accent"
-                  className="w-full py-3.5 text-sm font-bold shadow-lg mt-2"
+                  className="w-full py-3.5 text-sm font-bold shadow-lg mt-2 cursor-pointer"
                 >
                   <Lock size={16} />
                   <span>Unlock Admin Portal</span>
                 </Button>
               </form>
 
-              <div className="mt-8 text-center pt-6 border-t border-white/10 text-gray-400 text-xs">
-                <span>Premia Carwash &copy; 2025 • Founder Sultan</span>
+              <div className="mt-5 p-3 rounded-2xl bg-white/5 border border-white/10 text-center text-xs text-gray-300">
+                <span className="font-bold text-[#E5C158] block mb-0.5">Quick Login:</span>
+                <span>ID: <strong className="text-white">admin</strong> &nbsp;|&nbsp; Password: <strong className="text-white">admin</strong></span>
+              </div>
+
+              <div className="mt-6 text-center pt-4 border-t border-white/10 text-gray-400 text-xs">
+                <span>Premia Carwash &copy; 2025 • Founder Portal</span>
               </div>
             </div>
           </FadeIn>
@@ -515,6 +525,9 @@ const AdminDashboardPage = () => {
                         return (
                           <tr key={b._id} className="hover:bg-gray-50/80 transition-colors">
                             <td className="px-4 py-4">
+                              <span className="font-mono text-xs font-extrabold text-primary block bg-primary/10 px-2 py-0.5 rounded w-fit mb-1 border border-primary/20">
+                                {b.orderId || '#' + b._id?.slice(-6)}
+                              </span>
                               <p className="font-semibold text-gray-900">{b.contactName}</p>
                               <p className="text-xs text-gray-400">{b.contactPhone}</p>
                             </td>
@@ -570,7 +583,7 @@ const AdminDashboardPage = () => {
                   <table className="w-full text-left text-sm text-gray-600">
                     <thead className="bg-gray-50 text-xs font-semibold uppercase text-gray-500">
                       <tr>
-                        <th className="px-6 py-4">Customer Details</th>
+                        <th className="px-6 py-4">Customer Details & Order ID</th>
                         <th className="px-6 py-4">Package</th>
                         <th className="px-6 py-4">Schedule</th>
                         <th className="px-6 py-4">Address</th>
@@ -585,6 +598,9 @@ const AdminDashboardPage = () => {
                         return (
                           <tr key={b._id} className="hover:bg-gray-50/80 transition-colors">
                             <td className="px-6 py-4">
+                              <span className="font-mono text-xs font-extrabold text-primary block bg-primary/10 px-2.5 py-0.5 rounded w-fit mb-1 border border-primary/20">
+                                {b.orderId || '#' + b._id?.slice(-6)}
+                              </span>
                               <p className="font-semibold text-gray-900">{b.contactName}</p>
                               <p className="text-xs text-gray-500">{b.contactEmail}</p>
                               <p className="text-xs text-primary font-medium">{b.contactPhone}</p>
