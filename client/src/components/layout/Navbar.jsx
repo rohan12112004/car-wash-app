@@ -38,11 +38,11 @@ const Navbar = () => {
     }`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo — Horizontally Stretched for Crisp Legibility */}
-        <Link to="/" className="flex items-center group shrink-0 py-0">
+        <Link to="/" className="flex items-center group shrink-0 py-0 mr-6 sm:mr-10 md:mr-12">
           <img
             src="/images/logo.png"
             alt="Premia Carwash"
-            className="h-12 sm:h-14 md:h-16 w-auto object-contain max-w-[200px] sm:max-w-[240px] md:max-w-[280px] transition-transform duration-200 group-hover:scale-105"
+            className="h-10 sm:h-11 md:h-12 w-auto object-contain scale-x-125 sm:scale-x-135 md:scale-x-140 origin-left transition-transform duration-200 group-hover:scale-x-145"
           />
         </Link>
 

@@ -16,8 +16,8 @@ const companyInfo = {
   foundedYear: '2025',
   
   social: {
-    instagram: 'https://instagram.com/premiacarwash',
-    facebook: 'https://facebook.com/premiacarwash',
+    instagram: 'https://www.instagram.com/premia_carwash?igsi=MWZwYWljeWY2ejFrcA==',
+    facebook: 'https://www.facebook.com/share/1BqoDWQZoq/?mibextid=wwXIfr',
     youtube: 'https://youtube.com/@premiacarwash',
     linkedin: 'https://linkedin.com/company/premiacarwash',
   },
