@@ -56,6 +56,7 @@ export const sendBookingEmail = async (booking, adminEmail) => {
       <p style="margin: 4px 0;"><strong>Time Slot:</strong> ${booking.timeSlot}</p>
       <p style="margin: 4px 0;"><strong>Doorstep Address:</strong> ${booking.address}, ${booking.city || ''}</p>
       <p style="margin: 4px 0;"><strong>Customer Phone:</strong> ${booking.contactPhone}</p>
+      <p style="margin: 4px 0;"><strong>Estimated Amount:</strong> ₹${booking.amount || 499}</p>
     </div>
   `;
 
@@ -86,6 +87,34 @@ export const sendBookingEmail = async (booking, adminEmail) => {
     dispatches.push(sendEmail(adminEmail.trim(), '🚨 New Booking Received — Premia Carwash', adminHtml));
   }
 
+  await Promise.allSettled(dispatches);
+};
+
+export const sendPaymentEmail = async (payment, userEmail, adminEmail) => {
+  const details = `
+    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 16px; border-radius: 8px; margin: 16px 0;">
+      <p style="margin: 4px 0;"><strong>Payment Amount:</strong> ₹${payment.amount}</p>
+      <p style="margin: 4px 0;"><strong>Transaction ID:</strong> ${payment.razorpayPaymentId || payment._id}</p>
+      <p style="margin: 4px 0;"><strong>Payment Status:</strong> Successful (Paid)</p>
+    </div>
+  `;
+  const userHtml = wrapLayout(`
+    <h3 style="color: #0B3D2E;">Payment Received — Premia Carwash</h3>
+    <p>Dear Customer,</p>
+    <p>We have successfully received your payment for Premia Carwash services.</p>
+    ${details}
+    <p>Thank you for choosing Premia Carwash!</p>
+  `);
+  const adminHtml = wrapLayout(`
+    <h3 style="color: #0B3D2E;">💰 Payment Received Alert</h3>
+    <p>A customer payment has been confirmed:</p>
+    ${details}
+    <p><strong>Customer:</strong> ${userEmail}</p>
+  `);
+
+  const dispatches = [];
+  if (userEmail) dispatches.push(sendEmail(userEmail, 'Premia Carwash — Payment Receipt', userHtml));
+  if (adminEmail) dispatches.push(sendEmail(adminEmail, '💰 New Payment Received — Premia Carwash', adminHtml));
   await Promise.allSettled(dispatches);
 };
 

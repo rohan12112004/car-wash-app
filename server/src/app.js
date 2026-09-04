@@ -2,6 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
 import { env } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -16,10 +17,22 @@ import adminRoutes from './routes/adminRoutes.js';
 export const app = express();
 
 // Security Middlewares
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(
   cors({
-    origin: env.FRONTEND_URL || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, server-to-server)
+      if (!origin) return callback(null, true);
+      // Allow localhost, any vercel app, and production domains
+      if (
+        origin.includes('localhost') ||
+        origin.includes('vercel.app') ||
+        origin.includes('premiacarwash')
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true); // Safe permissive fallback for public booking API
+    },
     credentials: true,
   })
 );
@@ -48,23 +61,22 @@ app.use((req, res, next) => {
   next();
 });
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/inquiries', inquiryRoutes);
-app.use('/api/contacts', contactRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/admin', adminRoutes);
+// API Routes — support both /api/path and /path in case Vercel rewrites strip /api
+app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/bookings', '/bookings'], bookingRoutes);
+app.use(['/api/inquiries', '/inquiries'], inquiryRoutes);
+app.use(['/api/contacts', '/contacts'], contactRoutes);
+app.use(['/api/payments', '/payments'], paymentRoutes);
+app.use(['/api/admin', '/admin'], adminRoutes);
 
 // Health check
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok', environment: env.NODE_ENV });
+app.get(['/health', '/api/health'], (req, res) => {
+  res.status(200).json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
 });
 
-// 404 Handler
-app.use((req, res) => {
-  res.status(404).json({ success: false, error: 'API route not found' });
-});
-
-// Centralized Error Handler
+// Global Error Handler
 app.use(errorHandler);

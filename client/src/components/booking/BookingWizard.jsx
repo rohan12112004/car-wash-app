@@ -80,26 +80,26 @@ const BookingWizard = ({ initialServiceSlug }) => {
     specialInstructions: '',
   });
 
-  // Filtered Services matching the selected Category AND Sub-Type
-  const getFilteredServices = () => {
-    if (formData.category === 'Car Wash') {
+  // Filtered Services matching Category AND Sub-Type
+  const getFilteredServices = (cat = formData.category, st = formData.subType) => {
+    if (cat === 'Car Wash') {
       return allServices.filter(s => s.categorySlug === 'car-wash');
     }
-    if (formData.category === 'Commercial') {
-      if (formData.subType === 'fleet') {
+    if (cat === 'Commercial') {
+      if (st === 'fleet') {
         return [
           allServices.find(s => s.id === 'truck-cleaning') || { id: 'truck-cleaning', name: 'Truck Cleaning', shortDescription: 'Industrial-grade truck cleaning for logistics and fleets.', price: { starting: 499, currency: '₹' } },
           allServices.find(s => s.id === 'luxury-bus-cleaning') || { id: 'luxury-bus-cleaning', name: 'Luxury Bus Cleaning', shortDescription: 'Premium bus and coach cleaning for fleets.', price: { starting: 3999, currency: '₹' } },
         ].filter(Boolean);
       }
-      if (formData.subType === 'office') {
+      if (st === 'office') {
         return [
           { id: 'office-deep-clean', name: 'Office & Workspace Deep Cleaning', shortDescription: 'Complete corporate space sanitization, workstation dusting, and vacuuming.', price: { starting: 1999, currency: '₹' } },
           { id: 'retail-showroom-clean', name: 'Retail Store & Showroom Cleaning', shortDescription: 'High-traffic retail floor polishing, glass cleaning, and display care.', price: { starting: 2499, currency: '₹' } },
           { id: 'commercial-carpet-clean', name: 'Commercial Carpet & Floor Scrubbing', shortDescription: 'Industrial rotary scrubber wash and carpet hot water extraction.', price: { starting: 1499, currency: '₹' } },
         ];
       }
-      if (formData.subType === 'heavy') {
+      if (st === 'heavy') {
         return [
           allServices.find(s => s.id === 'dumper-cleaning') || { id: 'dumper-cleaning', name: 'Dumper Cleaning', shortDescription: 'Heavy-duty dumper and construction vehicle cleaning.', price: { starting: 1999, currency: '₹' } },
           { id: 'heavy-machinery-wash', name: 'Heavy Machinery & Earthmover Wash', shortDescription: 'High-PSI pressure washing for JCBs, excavators, and tractors.', price: { starting: 2499, currency: '₹' } },
@@ -107,17 +107,17 @@ const BookingWizard = ({ initialServiceSlug }) => {
       }
       return allServices.filter(s => s.categorySlug === 'commercial');
     }
-    if (formData.category === 'Home Care') {
-      if (formData.subType === 'sofa') {
+    if (cat === 'Home Care') {
+      if (st === 'sofa') {
         return allServices.filter(s => ['sofa-cleaning', 'carpet-cleaning', 'doormat-cleaning'].includes(s.id));
       }
-      if (formData.subType === 'carpet') { // AC Cleaning
+      if (st === 'carpet') { // AC Cleaning
         return [
           { id: 'window-ac-clean', name: 'Window AC Deep Cleaning', shortDescription: 'Pressure washer foam wash and coil disinfection.', price: { starting: 499, currency: '₹' } },
           { id: 'split-ac-clean', name: 'Split AC Deep Cleaning', shortDescription: 'Complete indoor & outdoor unit foam cleaning.', price: { starting: 599, currency: '₹' } },
         ];
       }
-      if (formData.subType === 'specialized') { // Water Tank and Solar
+      if (st === 'specialized') { // Water Tank and Solar
         return allServices.filter(s => ['water-tank-cleaning', 'solar-panel-cleaning', 'chimney-cleaning', 'tiles-cleaning'].includes(s.id));
       }
       return allServices.filter(s => s.categorySlug === 'home');
@@ -140,7 +140,7 @@ const BookingWizard = ({ initialServiceSlug }) => {
 
     // Step 3 Validation
     if (currentStep === 3 && !formData.service) {
-      return toast.error('Please select a service');
+      return toast.error('Please select a service package');
     }
 
     // Step 4 Validation
@@ -162,9 +162,19 @@ const BookingWizard = ({ initialServiceSlug }) => {
       setLoading(true);
       try {
         const payload = {
-          ...formData,
+          service: formData.service,
+          category: formData.category,
+          subType: formData.subType,
           vehicleType: formData.subType,
-          amount: formData.serviceObj?.price?.starting || 1499,
+          date: formData.date,
+          timeSlot: formData.timeSlot,
+          address: formData.address,
+          city: formData.city || 'Delhi NCR',
+          specialInstructions: formData.specialInstructions || '',
+          contactName: formData.contactName,
+          contactEmail: formData.contactEmail,
+          contactPhone: formData.contactPhone,
+          amount: Number(formData.serviceObj?.price?.starting) || 499,
         };
 
         await api.post('/bookings', payload);
@@ -177,11 +187,8 @@ const BookingWizard = ({ initialServiceSlug }) => {
         toast.success('Premia Carwash Booking Confirmed! Confirmation email dispatched.');
       } catch (err) {
         console.error('Booking error:', err);
-        try {
-          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-        } catch (e) {}
-        setIsSuccess(true);
-        toast.success('Booking registered! Our team will contact you shortly.');
+        const errMsg = err.response?.data?.message || err.message || 'Failed to submit booking. Please try again.';
+        toast.error(errMsg);
       } finally {
         setLoading(false);
       }
@@ -314,7 +321,17 @@ const BookingWizard = ({ initialServiceSlug }) => {
                     return (
                       <div
                         key={st.id}
-                        onClick={() => setFormData({...formData, subType: st.id, service: '', serviceObj: null})}
+                        onClick={() => {
+                          const newSubType = st.id;
+                          const avail = getFilteredServices(formData.category, newSubType);
+                          const firstSrv = avail[0] || null;
+                          setFormData({
+                            ...formData,
+                            subType: newSubType,
+                            service: firstSrv?.name || '',
+                            serviceObj: firstSrv,
+                          });
+                        }}
                         className={`p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
                           isSelected ? 'border-primary bg-primary/5 shadow-md ring-2 ring-primary/20 scale-102' : 'border-gray-200 hover:border-primary/40'
                         }`}
