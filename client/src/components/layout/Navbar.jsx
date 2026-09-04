@@ -35,27 +35,27 @@ const Navbar = () => {
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
       isScrolled
         ? 'bg-white/98 backdrop-blur-xl border-b border-[#0B3D2E]/10 shadow-md py-1'
-        : 'bg-white border-b border-[#0B3D2E]/8 shadow-sm py-1.5'
+        : 'bg-white border-b border-[#0B3D2E]/8 shadow-sm py-1 sm:py-1.5'
     }`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
-        {/* Logo — Original Proportions, Crisp & Naturally Sized */}
-        <Link to="/" className="flex items-center group shrink-0 py-0 mr-4 sm:mr-6 md:mr-8">
+        {/* Logo — Prominently Sized, Natural Proportions (No Distortion) */}
+        <Link to="/" className="flex items-center group shrink-0 py-0 mr-2 sm:mr-4 md:mr-6">
           <img
             src="/images/logo.png"
             alt="Premia Carwash"
-            className="h-11 sm:h-13 md:h-14 lg:h-15 w-auto object-contain max-w-[190px] sm:max-w-[230px] md:max-w-[260px] transition-transform duration-200 group-hover:scale-105"
+            className="h-[54px] sm:h-[62px] md:h-[68px] lg:h-[72px] xl:h-[76px] w-auto object-contain max-w-[220px] sm:max-w-[260px] md:max-w-[300px] transition-transform duration-200 group-hover:scale-105"
           />
         </Link>
 
         {/* Desktop Navigation Links — dark green to match logo text */}
-        <nav className="hidden lg:flex items-center gap-2.5 xl:gap-4">
+        <nav className="hidden lg:flex items-center gap-2 xl:gap-3 2xl:gap-4">
           {links.map((link) => {
             const isActive = location.pathname === link.path;
             return (
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-[11px] xl:text-xs 2xl:text-sm font-semibold transition-all duration-200 relative py-1 ${
+                className={`text-[11px] xl:text-xs 2xl:text-sm font-semibold transition-all duration-200 relative py-1 whitespace-nowrap ${
                   isActive
                     ? 'text-[#0B3D2E] font-bold'
                     : 'text-[#0B3D2E]/70 hover:text-[#0B3D2E]'
@@ -74,16 +74,17 @@ const Navbar = () => {
         </nav>
 
         {/* Desktop Action CTAs */}
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
           <a
             href={`tel:${companyInfo.phone}`}
-            className="flex items-center gap-2 text-xs text-[#0B3D2E] hover:text-[#0B3D2E]/80 transition-colors border border-[#0B3D2E]/20 rounded-full px-3.5 py-1.5 bg-white font-bold"
+            className="flex items-center gap-1.5 text-xs text-[#0B3D2E] hover:text-[#0B3D2E]/80 transition-colors border border-[#0B3D2E]/20 rounded-full px-2.5 xl:px-3.5 py-1.5 bg-white font-bold whitespace-nowrap"
+            title={`Call ${companyInfo.phone}`}
           >
             <Phone size={14} className="text-[#0B3D2E]" />
-            <span>{companyInfo.phone}</span>
+            <span className="hidden xl:inline">{companyInfo.phone}</span>
           </a>
           <Link to="/book">
-            <Button size="sm" className="shadow-md text-xs bg-[#0B3D2E] hover:bg-[#14532D] text-white border-0">
+            <Button size="sm" className="shadow-md text-xs px-3 py-1.5 bg-[#0B3D2E] hover:bg-[#14532D] text-white border-0 whitespace-nowrap">
               Book Service
             </Button>
           </Link>
