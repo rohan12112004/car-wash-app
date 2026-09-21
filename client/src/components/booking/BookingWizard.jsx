@@ -68,9 +68,20 @@ const BookingWizard = ({ initialServiceSlug }) => {
     initialServiceObj.categorySlug === 'commercial' ? 'Commercial' : 'Home Care'
   ) : 'Car Wash';
 
+  let initialSubType = 'sedan';
+  if (initialCategory === 'Home Care' && initialServiceObj) {
+    if (initialServiceObj.slug.includes('tile')) initialSubType = 'tiles';
+    else if (initialServiceObj.slug.includes('kitchen')) initialSubType = 'kitchen';
+    else if (['sofa-cleaning', 'carpet-cleaning', 'doormat-cleaning'].includes(initialServiceObj.id)) initialSubType = 'sofa';
+    else if (initialServiceObj.slug.includes('ac')) initialSubType = 'carpet';
+    else initialSubType = 'specialized';
+  } else if (initialCategory === 'Commercial' && initialServiceObj) {
+    initialSubType = 'fleet';
+  }
+
   const [formData, setFormData] = useState({
     category: initialCategory,
-    subType: 'sedan',
+    subType: initialSubType,
     service: initialServiceObj ? initialServiceObj.name : 'Foam Wash',
     serviceObj: initialServiceObj || allServices.find(s => s.categorySlug === 'car-wash'),
     date: new Date().toISOString().split('T')[0],
@@ -115,13 +126,15 @@ const BookingWizard = ({ initialServiceSlug }) => {
         return allServices.filter(s => ['sofa-cleaning', 'carpet-cleaning', 'doormat-cleaning'].includes(s.id));
       }
       if (st === 'tiles') {
-        return [
+        const found = allServices.filter(s => ['wall-tiles-cleaning', 'floor-tiles-cleaning'].includes(s.id));
+        return found.length > 0 ? found : [
           { id: 'wall-tiles-cleaning', name: 'Wall Tiles Cleaning', shortDescription: 'Professional wall tiles deep cleaning for bathrooms and kitchens.', price: { starting: 499, currency: '₹' } },
           { id: 'floor-tiles-cleaning', name: 'Floor Tiles Cleaning', shortDescription: 'Deep floor tiles cleaning with grout whitening and stain removal.', price: { starting: 699, currency: '₹' } },
         ];
       }
       if (st === 'kitchen') {
-        return [
+        const found = allServices.filter(s => ['kitchen-basic-cleaning', 'kitchen-deep-cleaning'].includes(s.id));
+        return found.length > 0 ? found : [
           { id: 'kitchen-basic-cleaning', name: 'Kitchen Basic Cleaning', shortDescription: 'Basic kitchen cleaning including countertops, sink, and appliance exterior.', price: { starting: 799, currency: '₹' } },
           { id: 'kitchen-deep-cleaning', name: 'Kitchen Deep Cleaning', shortDescription: 'Complete deep kitchen cleaning including chimney, cabinets, and appliances.', price: { starting: 1599, currency: '₹' } },
         ];

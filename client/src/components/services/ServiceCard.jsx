@@ -32,8 +32,11 @@ const SERVICE_IMAGES = {
   'ac-cleaning': 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800',
   'water-tank-cleaning': 'https://images.unsplash.com/photo-1542013936693-884638332954?w=800',
   'solar-panel-cleaning': 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800',
-  'chimney-cleaning': 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800',
   'tiles-cleaning': 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800',
+  'wall-tiles-cleaning': 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800',
+  'floor-tiles-cleaning': 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800',
+  'kitchen-basic-cleaning': 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800',
+  'kitchen-deep-cleaning': 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800',
 };
 
 const ServiceCard = ({ 
