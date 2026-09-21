@@ -65,8 +65,8 @@ export const sendBookingEmail = async (booking, adminEmail) => {
   const amountFormatted = `₹${amount.toFixed(2)}`;
   const serviceName = `${booking.service}${booking.vehicleType ? ' - ' + vehicleType : ''}`;
 
-  // 1. Invoice-style Email to Customer
-  const userHtml = `
+  // Exact same Invoice-style Confirmation Email sent to both Customer and Admin
+  const invoiceHtml = `
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
@@ -191,37 +191,17 @@ export const sendBookingEmail = async (booking, adminEmail) => {
 </body>
 </html>`;
 
-  // 2. Email to Company Inbox (Admin Notification — kept with wrapLayout)
-  const adminDetails = `
-    <div style="background: #f0fdf4; border: 2px solid #22c55e; padding: 18px; border-radius: 10px; margin: 16px 0;">
-      <div style="background: #0B3D2E; color: #ffffff; padding: 8px 14px; border-radius: 6px; margin-bottom: 14px; display: inline-block;">
-        <span style="font-size: 11px; letter-spacing: 1px; text-transform: uppercase; display: block; opacity: 0.85;">Tracking Order ID</span>
-        <span style="font-size: 18px; font-weight: bold; letter-spacing: 1.5px;">${orderIdDisplay}</span>
-      </div>
-      <p style="margin: 4px 0;"><strong>Service Package:</strong> ${booking.service}</p>
-      <p style="margin: 4px 0;"><strong>Vehicle Category:</strong> ${vehicleType}</p>
-      <p style="margin: 4px 0;"><strong>Appointment Date:</strong> ${formattedDate}</p>
-      <p style="margin: 4px 0;"><strong>Time Slot:</strong> ${booking.timeSlot}</p>
-      <p style="margin: 4px 0;"><strong>Doorstep Address:</strong> ${booking.address}, ${booking.city || ''}</p>
-      <p style="margin: 4px 0;"><strong>Customer Phone:</strong> ${booking.contactPhone}</p>
-      <p style="margin: 4px 0;"><strong>Estimated Amount:</strong> ${amountFormatted}</p>
-    </div>
-  `;
-  const adminHtml = wrapLayout(`
-    <h3 style="color: #0B3D2E;">🚨 New Doorstep Booking Received!</h3>
-    <p>A new customer booking has been placed with Order ID: <strong style="color: #0B3D2E; font-size: 16px;">${orderIdDisplay}</strong></p>
-    ${adminDetails}
-    <p><strong>Customer Name:</strong> ${booking.contactName} (${booking.contactEmail})</p>
-  `);
-  
-  // Dispatch both emails in parallel via Promise.allSettled
+  // Dispatch exact same confirmation invoice to both customer (client) and company admin (receiver)
   const dispatches = [];
+  const invoiceSubject = `Premia Carwash — Order Confirmation [${orderIdDisplay}]`;
   const customerEmail = booking.contactEmail?.trim();
+  const targetAdminEmail = (adminEmail || env.ADMIN_EMAIL)?.trim();
+
   if (customerEmail) {
-    dispatches.push(sendEmail(customerEmail, `Premia Carwash — Order Confirmation [${orderIdDisplay}]`, userHtml));
+    dispatches.push(sendEmail(customerEmail, invoiceSubject, invoiceHtml));
   }
-  if (adminEmail?.trim()) {
-    dispatches.push(sendEmail(adminEmail.trim(), `🚨 New Booking Received [${orderIdDisplay}] — Premia Carwash`, adminHtml));
+  if (targetAdminEmail) {
+    dispatches.push(sendEmail(targetAdminEmail, invoiceSubject, invoiceHtml));
   }
 
   await Promise.allSettled(dispatches);
