@@ -38,7 +38,7 @@ const categories = [
     link: '/services/home',
     badge: 'Doorstep Care',
     gradient: 'from-primary-light via-accent to-accent-glow',
-    servicesCount: '8 Home Services',
+    servicesCount: '10 Home Services',
   },
 ];
 

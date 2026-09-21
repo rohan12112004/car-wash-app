@@ -30,7 +30,7 @@ const categories = [
     image: '/images/office_cleaning.jpg',
   },
   {
-    title: 'Home & Carpet Care',
+    title: 'Home Cleaning',
     path: '/services/home',
     icon: Home,
     description: 'Deep house cleaning, sofa vacuuming, carpet shampooing, and kitchen sanitization.',

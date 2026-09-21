@@ -33,12 +33,11 @@ export const errorHandler = (err, req, res, next) => {
   const response = {
     success: false,
     error: message || 'Server Error',
+    message: message || 'Server Error',
     ...(env.NODE_ENV === 'development' && { stack: err.stack }),
   };
 
-  if (statusCode >= 500) {
-    logger.error(`${statusCode} - ${message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-  }
+  logger.error(`[${statusCode}] ${req.method} ${req.originalUrl} - ${message}`);
 
   res.status(statusCode).json(response);
 };

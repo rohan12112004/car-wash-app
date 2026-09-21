@@ -49,37 +49,168 @@ export const sendLoginAlertEmail = async (adminEmail, user) => {
 
 export const sendBookingEmail = async (booking, adminEmail) => {
   const orderIdDisplay = booking.orderId || 'Pending Allocation';
-  const details = `
+
+  // Format date nicely (e.g., "September 21, 2026")
+  const formatDate = (dateStr) => {
+    try {
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return dateStr || 'To be confirmed';
+      return d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+    } catch { return dateStr || 'To be confirmed'; }
+  };
+
+  const formattedDate = formatDate(booking.date);
+  const vehicleType = booking.vehicleType ? booking.vehicleType.charAt(0).toUpperCase() + booking.vehicleType.slice(1) : 'Standard';
+  const amount = Number(booking.amount) || 499;
+  const amountFormatted = `₹${amount.toFixed(2)}`;
+  const serviceName = `${booking.service}${booking.vehicleType ? ' - ' + vehicleType : ''}`;
+
+  // 1. Invoice-style Email to Customer
+  const userHtml = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background-color:#f4f6f8;font-family:Arial,Helvetica,sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f8;padding:20px 0;">
+<tr><td align="center">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);max-width:600px;width:100%;">
+
+  <!-- Header -->
+  <tr>
+    <td style="padding:32px 40px 24px;text-align:center;border-bottom:1px solid #eee;">
+      <h1 style="margin:0;font-size:28px;color:#1B3A5C;font-weight:bold;letter-spacing:1px;">Premia Carwash</h1>
+      <p style="margin:6px 0 0;font-size:14px;color:#999;font-weight:400;">Order Confirmation</p>
+    </td>
+  </tr>
+
+  <!-- Order Reference -->
+  <tr>
+    <td style="padding:28px 40px 20px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" style="border-left:4px solid #1B3A5C;padding-left:16px;">
+        <tr><td>
+          <p style="margin:0 0 6px;font-size:14px;color:#333;"><strong style="color:#1B3A5C;">Order Reference:</strong> ${orderIdDisplay}</p>
+          <p style="margin:0;font-size:14px;color:#333;"><strong style="color:#1B3A5C;">Order Date:</strong> ${formattedDate}</p>
+        </td></tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Customer Details Section -->
+  <tr>
+    <td style="padding:10px 40px 0;">
+      <h2 style="margin:0 0 8px;font-size:18px;color:#1B3A5C;font-weight:bold;">Customer Details</h2>
+      <hr style="border:none;border-top:3px solid #1B3A5C;margin:0 0 16px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;color:#333;">
+        <tr><td style="padding:6px 0;"><strong style="color:#333;">Name</strong></td></tr>
+        <tr><td style="padding:0 0 12px;color:#555;">${booking.contactName}</td></tr>
+        <tr><td style="padding:6px 0;"><strong style="color:#333;">Email</strong></td></tr>
+        <tr><td style="padding:0 0 12px;"><a href="mailto:${booking.contactEmail}" style="color:#2B5C8A;text-decoration:none;">${booking.contactEmail}</a></td></tr>
+        <tr><td style="padding:6px 0;"><strong style="color:#333;">Mobile Number</strong></td></tr>
+        <tr><td style="padding:0 0 12px;color:#555;">${booking.contactPhone}</td></tr>
+        <tr><td style="padding:6px 0;"><strong style="color:#333;">Service Address</strong></td></tr>
+        <tr><td style="padding:0 0 12px;color:#555;">${booking.address}${booking.city ? ', ' + booking.city : ''}</td></tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Service Details Section -->
+  <tr>
+    <td style="padding:20px 40px 0;">
+      <h2 style="margin:0 0 8px;font-size:18px;color:#1B3A5C;font-weight:bold;">Service Details</h2>
+      <hr style="border:none;border-top:3px solid #1B3A5C;margin:0 0 16px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;">
+        <!-- Table Header -->
+        <tr style="color:#555;">
+          <td style="padding:10px 8px;font-weight:bold;width:30%;">Service Name</td>
+          <td style="padding:10px 8px;font-weight:bold;text-align:center;width:20%;">Vehicle Category</td>
+          <td style="padding:10px 8px;font-weight:bold;text-align:center;width:16%;">Price</td>
+          <td style="padding:10px 8px;font-weight:bold;text-align:center;width:14%;">Quantity</td>
+          <td style="padding:10px 8px;font-weight:bold;text-align:right;width:20%;">Total</td>
+        </tr>
+        <tr><td colspan="5" style="border-bottom:3px solid #1B3A5C;"></td></tr>
+        <!-- Service Row -->
+        <tr style="color:#333;">
+          <td style="padding:14px 8px;font-size:14px;">${serviceName}</td>
+          <td style="padding:14px 8px;text-align:center;font-size:14px;">${vehicleType}</td>
+          <td style="padding:14px 8px;text-align:center;font-size:14px;">${amountFormatted}</td>
+          <td style="padding:14px 8px;text-align:center;font-size:14px;">1</td>
+          <td style="padding:14px 8px;text-align:right;font-size:14px;font-weight:bold;color:#1B3A5C;">${amountFormatted}</td>
+        </tr>
+        <tr><td colspan="5" style="border-bottom:1px solid #e5e7eb;"></td></tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Totals -->
+  <tr>
+    <td style="padding:16px 40px 8px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;">
+        <tr>
+          <td style="text-align:right;padding:6px 8px;color:#555;">Subtotal:</td>
+          <td style="text-align:right;padding:6px 8px;width:120px;color:#333;">${amountFormatted}</td>
+        </tr>
+        <tr>
+          <td style="text-align:right;padding:8px 8px;font-weight:bold;font-size:16px;color:#1B3A5C;">Grand Total:</td>
+          <td style="text-align:right;padding:8px 8px;width:120px;font-weight:bold;font-size:16px;color:#1B3A5C;">${amountFormatted}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Time Slot Info -->
+  <tr>
+    <td style="padding:16px 40px 6px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f0f7ff;border-radius:8px;padding:14px 16px;">
+        <tr><td style="padding:8px 16px;font-size:13px;color:#1B3A5C;">
+          <strong>Appointment Slot:</strong> ${formattedDate} (${booking.timeSlot})<br>
+          <span style="font-size:12px;color:#666;">Our professional technician will arrive within 20 mins of your slot start time.</span>
+        </td></tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Tracking Info -->
+  <tr>
+    <td style="padding:16px 40px 8px;text-align:center;">
+      <p style="margin:0;font-size:13px;color:#555;">
+        Track your order using Order ID <strong style="color:#1B3A5C;">${orderIdDisplay}</strong> on our website or call <strong>+91 8882670676</strong>.
+      </p>
+    </td>
+  </tr>
+
+  <!-- Footer -->
+  <tr>
+    <td style="padding:20px 40px;text-align:center;border-top:1px solid #eee;background-color:#f9fafb;">
+      <p style="margin:0;font-size:12px;color:#999;">&copy; ${new Date().getFullYear()} Premia Carwash (+91 8882670676). All rights reserved.</p>
+    </td>
+  </tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`;
+
+  // 2. Email to Company Inbox (Admin Notification — kept with wrapLayout)
+  const adminDetails = `
     <div style="background: #f0fdf4; border: 2px solid #22c55e; padding: 18px; border-radius: 10px; margin: 16px 0;">
       <div style="background: #0B3D2E; color: #ffffff; padding: 8px 14px; border-radius: 6px; margin-bottom: 14px; display: inline-block;">
         <span style="font-size: 11px; letter-spacing: 1px; text-transform: uppercase; display: block; opacity: 0.85;">Tracking Order ID</span>
         <span style="font-size: 18px; font-weight: bold; letter-spacing: 1.5px;">${orderIdDisplay}</span>
       </div>
       <p style="margin: 4px 0;"><strong>Service Package:</strong> ${booking.service}</p>
-      <p style="margin: 4px 0;"><strong>Vehicle Category:</strong> ${booking.vehicleType || 'Standard'}</p>
-      <p style="margin: 4px 0;"><strong>Appointment Date:</strong> ${booking.date}</p>
+      <p style="margin: 4px 0;"><strong>Vehicle Category:</strong> ${vehicleType}</p>
+      <p style="margin: 4px 0;"><strong>Appointment Date:</strong> ${formattedDate}</p>
       <p style="margin: 4px 0;"><strong>Time Slot:</strong> ${booking.timeSlot}</p>
       <p style="margin: 4px 0;"><strong>Doorstep Address:</strong> ${booking.address}, ${booking.city || ''}</p>
       <p style="margin: 4px 0;"><strong>Customer Phone:</strong> ${booking.contactPhone}</p>
-      <p style="margin: 4px 0;"><strong>Estimated Amount:</strong> ₹${booking.amount || 499}</p>
+      <p style="margin: 4px 0;"><strong>Estimated Amount:</strong> ${amountFormatted}</p>
     </div>
   `;
-
-  // 1. Email to Customer
-  const userHtml = wrapLayout(`
-    <h3 style="color: #0B3D2E;">Doorstep Booking Confirmed!</h3>
-    <p>Dear ${booking.contactName},</p>
-    <p>Thank you for booking with <strong>Premia Carwash</strong>. Your doorstep service request has been confirmed with Tracking Order ID: <strong style="color: #0B3D2E; font-size: 16px;">${orderIdDisplay}</strong>.</p>
-    <p>Our professional detailing technician will arrive within 20 mins of your slot start time.</p>
-    ${details}
-    <p>You can track your order status anytime using your Order ID <strong>${orderIdDisplay}</strong> on our website or by contacting our hotline at <strong>+91 8882670676</strong>.</p>
-  `);
-
-  // 2. Email to Company Inbox (Admin Notification)
   const adminHtml = wrapLayout(`
     <h3 style="color: #0B3D2E;">🚨 New Doorstep Booking Received!</h3>
     <p>A new customer booking has been placed with Order ID: <strong style="color: #0B3D2E; font-size: 16px;">${orderIdDisplay}</strong></p>
-    ${details}
+    ${adminDetails}
     <p><strong>Customer Name:</strong> ${booking.contactName} (${booking.contactEmail})</p>
   `);
   
@@ -87,7 +218,7 @@ export const sendBookingEmail = async (booking, adminEmail) => {
   const dispatches = [];
   const customerEmail = booking.contactEmail?.trim();
   if (customerEmail) {
-    dispatches.push(sendEmail(customerEmail, `Premia Carwash — Booking Confirmation [${orderIdDisplay}]`, userHtml));
+    dispatches.push(sendEmail(customerEmail, `Premia Carwash — Order Confirmation [${orderIdDisplay}]`, userHtml));
   }
   if (adminEmail?.trim()) {
     dispatches.push(sendEmail(adminEmail.trim(), `🚨 New Booking Received [${orderIdDisplay}] — Premia Carwash`, adminHtml));

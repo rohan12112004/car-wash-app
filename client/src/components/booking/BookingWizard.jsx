@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   CheckCircle2, Car, Building2, Home, Shield, Sparkles, 
   User, Phone, Mail, MapPin, Calendar, Clock, Send, Award, 
-  Truck, Sofa, AirVent, Sun, Flame, Check 
+  Truck, Sofa, AirVent, Sun, Flame, Check, Grid3X3 
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
@@ -30,7 +30,7 @@ const steps = ['Category', 'Sub-Type', 'Service', 'Date & Slot', 'Contact & Addr
 const MAIN_CATEGORIES = [
   { id: 'Car Wash', name: 'Car Wash & Detailing', categorySlug: 'car-wash', icon: Car, desc: 'Doorstep foam wash, polish, interior steam, ceramic coating' },
   { id: 'Commercial', name: 'Commercial Cleaning', categorySlug: 'commercial', icon: Building2, desc: 'Commercial fleet care, truck wash, office & retail cleaning' },
-  { id: 'Home Care', name: 'Home & Carpet Care', categorySlug: 'home', icon: Home, desc: 'Sofa deep clean, carpet shampoo, AC, solar panel & chimney' },
+  { id: 'Home Care', name: 'Home Cleaning', categorySlug: 'home', icon: Home, desc: 'Sofa, carpet, AC, tiles, kitchen, solar panel & chimney cleaning' },
 ];
 
 // Sub-types per Category
@@ -48,6 +48,8 @@ const SUB_TYPES = {
   ],
   'Home Care': [
     { id: 'sofa', name: 'Sofa and Carpet', desc: 'Fabric & leather couch deep shampooing', icon: Sofa },
+    { id: 'tiles', name: 'Tiles Cleaning', desc: 'Wall tiles & floor tiles deep cleaning', icon: Grid3X3 },
+    { id: 'kitchen', name: 'Kitchen Cleaning', desc: 'Basic & deep kitchen cleaning services', icon: Flame },
     { id: 'carpet', name: 'AC Cleaning', desc: 'Deep AC cleaning to improve efficiency', icon: AirVent },
     { id: 'specialized', name: 'Water Tank and Solar', desc: 'Water tank sanitization, solar panel, chimney & tiles', icon: Sun },
   ],
@@ -112,6 +114,18 @@ const BookingWizard = ({ initialServiceSlug }) => {
       if (st === 'sofa') {
         return allServices.filter(s => ['sofa-cleaning', 'carpet-cleaning', 'doormat-cleaning'].includes(s.id));
       }
+      if (st === 'tiles') {
+        return [
+          { id: 'wall-tiles-cleaning', name: 'Wall Tiles Cleaning', shortDescription: 'Professional wall tiles deep cleaning for bathrooms and kitchens.', price: { starting: 499, currency: '₹' } },
+          { id: 'floor-tiles-cleaning', name: 'Floor Tiles Cleaning', shortDescription: 'Deep floor tiles cleaning with grout whitening and stain removal.', price: { starting: 699, currency: '₹' } },
+        ];
+      }
+      if (st === 'kitchen') {
+        return [
+          { id: 'kitchen-basic-cleaning', name: 'Kitchen Basic Cleaning', shortDescription: 'Basic kitchen cleaning including countertops, sink, and appliance exterior.', price: { starting: 799, currency: '₹' } },
+          { id: 'kitchen-deep-cleaning', name: 'Kitchen Deep Cleaning', shortDescription: 'Complete deep kitchen cleaning including chimney, cabinets, and appliances.', price: { starting: 1599, currency: '₹' } },
+        ];
+      }
       if (st === 'carpet') { // AC Cleaning
         return [
           { id: 'window-ac-clean', name: 'Window AC Deep Cleaning', shortDescription: 'Pressure washer foam wash and coil disinfection.', price: { starting: 499, currency: '₹' } },
@@ -151,11 +165,11 @@ const BookingWizard = ({ initialServiceSlug }) => {
 
     // Step 5 Validation (Strictly Required Fields)
     if (currentStep === 5) {
-      if (!formData.contactName.trim()) return toast.error('Full name is required *');
-      if (!formData.contactPhone.trim() || formData.contactPhone.length < 10) return toast.error('Valid 10-digit phone number is required *');
+      if (!formData.contactName.trim() || formData.contactName.trim().length < 2) return toast.error('Full name is required (at least 2 characters) *');
+      if (!formData.contactPhone.trim() || formData.contactPhone.trim().replace(/\D/g, '').length < 10) return toast.error('Valid 10-digit phone number is required *');
       if (!formData.contactEmail.trim() || !formData.contactEmail.includes('@')) return toast.error('Valid email address is required *');
       if (!formData.city.trim()) return toast.error('City is required *');
-      if (!formData.address.trim()) return toast.error('Full doorstep address is required *');
+      if (!formData.address.trim() || formData.address.trim().length < 5) return toast.error('Full doorstep address is required (at least 5 characters) *');
     }
 
     // Final Step 6 Submission
@@ -163,18 +177,18 @@ const BookingWizard = ({ initialServiceSlug }) => {
       setLoading(true);
       try {
         const payload = {
-          service: formData.service,
-          category: formData.category,
-          subType: formData.subType,
-          vehicleType: formData.subType,
-          date: formData.date,
-          timeSlot: formData.timeSlot,
-          address: formData.address,
-          city: formData.city || 'Delhi NCR',
-          specialInstructions: formData.specialInstructions || '',
-          contactName: formData.contactName,
-          contactEmail: formData.contactEmail,
-          contactPhone: formData.contactPhone,
+          service: formData.service?.trim() || 'General Cleaning',
+          category: formData.category?.trim() || 'Home Care',
+          subType: formData.subType?.trim() || '',
+          vehicleType: formData.subType?.trim() || '',
+          date: formData.date?.trim() || new Date().toISOString().split('T')[0],
+          timeSlot: formData.timeSlot?.trim() || '10:00 AM - 12:00 PM',
+          address: formData.address.trim(),
+          city: (formData.city || 'Delhi NCR').trim(),
+          specialInstructions: (formData.specialInstructions || '').trim(),
+          contactName: formData.contactName.trim(),
+          contactEmail: formData.contactEmail.trim(),
+          contactPhone: formData.contactPhone.trim(),
           amount: Number(formData.serviceObj?.price?.starting) || 499,
         };
 
@@ -192,7 +206,7 @@ const BookingWizard = ({ initialServiceSlug }) => {
         toast.success(`Booking Confirmed! Order ID: ${createdData?.orderId || ''}`);
       } catch (err) {
         console.error('Booking error:', err);
-        const errMsg = err.response?.data?.message || err.message || 'Failed to submit booking. Please try again.';
+        const errMsg = err.response?.data?.error || err.response?.data?.message || err.message || 'Failed to submit booking. Please try again.';
         toast.error(errMsg);
       } finally {
         setLoading(false);
