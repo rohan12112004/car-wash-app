@@ -39,12 +39,13 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Col 2: Quick Links Section */}
-        <div className="flex flex-col gap-3">
-          <h4 className="font-heading font-bold text-lg text-white mb-1">Quick Links</h4>
-          <Link to="/track" className="text-emerald-400 font-bold hover:underline transition-colors text-sm flex items-center gap-1">📍 Track Your Order</Link>
-          <Link to="/about" className="text-gray-400 hover:text-accent transition-colors text-sm">About Premia</Link>
-          <Link to="/contact" className="text-gray-400 hover:text-accent transition-colors text-sm">Contact Us</Link>
+          {/* Col 2: Quick Links Section */}
+          <div className="flex flex-col gap-3">
+            <h4 className="font-heading font-bold text-lg text-white mb-1">Quick Links</h4>
+            <Link to="/track" className="text-emerald-400 font-bold hover:underline transition-colors text-sm flex items-center gap-1">📍 Track Your Order</Link>
+            <a href={companyInfo.mapUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline transition-colors text-sm flex items-center gap-1">📍 Find Us on Google Maps ↗</a>
+            <Link to="/about" className="text-gray-400 hover:text-accent transition-colors text-sm">About Premia</Link>
+            <Link to="/contact" className="text-gray-400 hover:text-accent transition-colors text-sm">Contact Us</Link>
           <Link to="/gallery" className="text-gray-400 hover:text-accent transition-colors text-sm">Gallery</Link>
           <Link to="/pricing" className="text-gray-400 hover:text-accent transition-colors text-sm">Online Payment & Pricing</Link>
           <Link to="/privacy-policy" className="text-gray-400 hover:text-accent transition-colors text-sm">Privacy Policy</Link>

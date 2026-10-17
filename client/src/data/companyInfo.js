@@ -4,14 +4,16 @@
 
 const companyInfo = {
   name: 'Premia Carwash',
-  tagline: 'India\'s Premier Doorstep Carwash, Detailing & Cleaning Brand',
-  description: 'Founded in 2025 by Sultan and Nitin Mukesh, & powered by Premia Group PVT. LTD. Premia Carwash is driven by a passion for excellence in automotive care. We deliver premium car cleaning, detailing, enhancement, and protection services, combining professional expertise with meticulous attention to detail.',
+  corporateName: 'SNTPREMIA GROUP PRIVATE LIMITED',
+  tagline: 'Professional Car Care At Your Doorstep',
+  description: 'Founded in 2025 by Sultan and Nitin Mukesh, & The official registered corporate name for Premia Carwash is SNTPREMIA GROUP PRIVATE LIMITED. Premia Carwash is driven by a passion for excellence in automotive care. We deliver premium car cleaning, detailing, enhancement, and protection services, combining professional expertise with meticulous attention to detail. Our goal is simple to make every vehicle look its finest and every customer experience truly exceptional.',
   
   phone: '+91 8882670676',
   email: 'premiacarwash@gmail.com',
   whatsapp: '918882670676',
   
-  address: '', // Address removed per requirement #2
+  mapUrl: 'https://maps.app.goo.gl/pYgZPvK2phQE2wsW8',
+  address: 'Premia Carwash, Janakpuri / Vikaspuri, New Delhi - 110018',
   businessHours: 'Mon - Sat: 10:00 AM - 6:00 PM',
   foundedYear: '2025',
   

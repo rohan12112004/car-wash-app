@@ -91,8 +91,16 @@ const ContactPage = () => {
                     <MapPin className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-1">Address</h3>
+                    <h3 className="font-bold text-gray-900 mb-1">Address & Location</h3>
                     <p className="text-gray-600 leading-relaxed">{companyInfo.address}</p>
+                    <a
+                      href={companyInfo.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block mt-2 text-xs font-bold text-emerald-600 hover:text-emerald-700 underline"
+                    >
+                      View on Google Maps ↗
+                    </a>
                   </div>
                 </div>
               </FadeIn>
