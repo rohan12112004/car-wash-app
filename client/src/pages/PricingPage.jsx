@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import PageWrapper from '../components/layout/PageWrapper';
 import FadeIn from '../components/animations/FadeIn';
 import PricingTable from '../components/services/PricingTable';
-import { carWashServices, commercialServices, homeCleaningServices } from '../data/servicesData';
+import { carWashServices, commercialServices, homeCleaningServices, gymCleaningServices } from '../data/servicesData';
 
 const PricingPage = () => {
   const [activeTab, setActiveTab] = useState('car-wash');
@@ -17,6 +17,7 @@ const PricingPage = () => {
       case 'car-wash': return carWashServices;
       case 'commercial': return commercialServices;
       case 'home': return homeCleaningServices;
+      case 'gym': return gymCleaningServices;
       default: return carWashServices;
     }
   };
@@ -24,7 +25,7 @@ const PricingPage = () => {
   return (
     <PageWrapper
       title="Pricing & Packages | Premia Carwash"
-      description="Transparent, competitive pricing for all our car wash, commercial, and home cleaning services."
+      description="Transparent, competitive pricing for all our car wash, commercial, home, and gym cleaning services."
     >
       <div className="bg-bg-light min-h-screen pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -44,7 +45,8 @@ const PricingPage = () => {
             {[
               { id: 'car-wash', label: 'Car Wash' },
               { id: 'commercial', label: 'Commercial' },
-              { id: 'home', label: 'Home Cleaning' }
+              { id: 'home', label: 'Home Cleaning' },
+              { id: 'gym', label: 'Gym Cleaning' },
             ].map(tab => (
               <button
                 key={tab.id}

@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   CheckCircle2, Car, Building2, Home, Shield, Sparkles, 
   User, Phone, Mail, MapPin, Calendar, Clock, Send, Award, 
-  Truck, Sofa, AirVent, Sun, Flame, Check, Grid3X3 
+  Truck, Sofa, AirVent, Sun, Flame, Check, Grid3X3, Dumbbell, Bike 
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
@@ -28,9 +28,10 @@ const steps = ['Category', 'Sub-Type', 'Service', 'Date & Slot', 'Contact & Addr
 
 // Main Categories
 const MAIN_CATEGORIES = [
-  { id: 'Car Wash', name: 'Car Wash & Detailing', categorySlug: 'car-wash', icon: Car, desc: 'Doorstep foam wash, polish, interior steam, ceramic coating' },
+  { id: 'Car Wash', name: 'Car Wash & Detailing', categorySlug: 'car-wash', icon: Car, desc: 'Doorstep foam wash, polish, interior steam, bike wash & scratch detailing' },
   { id: 'Commercial', name: 'Commercial Cleaning', categorySlug: 'commercial', icon: Building2, desc: 'Commercial fleet care, truck wash, office & retail cleaning' },
-  { id: 'Home Care', name: 'Home Cleaning', categorySlug: 'home', icon: Home, desc: 'Sofa, carpet, AC, tiles, kitchen, solar panel & chimney cleaning' },
+  { id: 'Home Care', name: 'Home Cleaning', categorySlug: 'home', icon: Home, desc: 'Sofa (3-5/5-9/8-12 seater), carpet, AC, tiles, kitchen & chimney cleaning' },
+  { id: 'Gym Cleaning', name: 'Gym Cleaning', categorySlug: 'gym', icon: Dumbbell, desc: 'Professional gym sanitization, equipment wipe-down & deep rotary scrub' },
 ];
 
 // Sub-types per Category
@@ -39,6 +40,7 @@ const SUB_TYPES = {
     { id: 'hatchback', name: 'Hatchback', desc: 'Compact cars (Swift, i20, Polo, Tiago)', icon: Car },
     { id: 'sedan', name: 'Sedan / Compact SUV', desc: 'Virtus, Verna, Dzire, Creta, Brezza', icon: Car },
     { id: 'suv', name: 'SUV / 7-Seater', desc: 'Fortuner, Innova, Harrier, XUV700', icon: Car },
+    { id: 'two_wheeler', name: 'Two Wheeler / Bike', desc: 'Motorcycles, superbikes, scooters & EVs', icon: Bike },
     { id: 'luxury', name: 'Luxury / Premium', desc: 'BMW, Mercedes, Audi, Jaguar, Porsche', icon: Award },
   ],
   'Commercial': [
@@ -47,12 +49,48 @@ const SUB_TYPES = {
     { id: 'heavy', name: 'Heavy Machinery', desc: 'Dumpers, tractors, earthmovers', icon: Building2 },
   ],
   'Home Care': [
-    { id: 'sofa', name: 'Sofa and Carpet', desc: 'Fabric & leather couch deep shampooing', icon: Sofa },
+    { id: 'sofa', name: 'Sofa and Carpet', desc: '3-5, 5-9 & 8-12 seater deep shampooing & carpet extraction', icon: Sofa },
     { id: 'tiles', name: 'Tiles Cleaning', desc: 'Wall tiles & floor tiles deep cleaning', icon: Grid3X3 },
     { id: 'kitchen', name: 'Kitchen Cleaning', desc: 'Basic & deep kitchen cleaning services', icon: Flame },
     { id: 'carpet', name: 'AC Cleaning', desc: 'Deep AC cleaning to improve efficiency', icon: AirVent },
     { id: 'specialized', name: 'Water Tank and Solar', desc: 'Water tank sanitization, solar panel, chimney & tiles', icon: Sun },
   ],
+  'Gym Cleaning': [
+    { id: 'studio', name: 'Fitness Studio / Private Gym', desc: 'Boutique studios, yoga, pilates & personal training spaces', icon: Dumbbell },
+    { id: 'commercial_gym', name: 'Commercial Gym & CrossFit', desc: 'Full-scale fitness centers, CrossFit boxes & club facilities', icon: Building2 },
+  ],
+};
+
+// Helper: Calculate exact price based on service and selected vehicle / scope subType
+export const computeServicePrice = (serviceObj, subType) => {
+  if (!serviceObj) return 499;
+
+  // Car Wash vehicle pricing
+  if (serviceObj.categorySlug === 'car-wash') {
+    if (serviceObj.id === 'two-wheeler-basic-wash') return 199;
+    if (serviceObj.id === 'two-wheeler-wash-polish') return 249;
+
+    if (subType === 'two_wheeler') {
+      if (serviceObj.id.includes('polish')) return 249;
+      return 199;
+    }
+
+    if (serviceObj.pricingTiers) {
+      if (subType === 'hatchback' && serviceObj.pricingTiers.hatchback) return serviceObj.pricingTiers.hatchback;
+      if (subType === 'sedan' && serviceObj.pricingTiers.sedan) return serviceObj.pricingTiers.sedan;
+      if (subType === 'suv' && serviceObj.pricingTiers.suv) return serviceObj.pricingTiers.suv;
+      if (subType === 'luxury') return (serviceObj.pricingTiers.suv || serviceObj.price?.starting || 499) + 200;
+    }
+  }
+
+  // Gym Cleaning exact prices
+  if (serviceObj.categorySlug === 'gym' || serviceObj.id?.includes('gym')) {
+    if (serviceObj.id === 'gym-deep-cleaning') return 4999;
+    return 2499;
+  }
+
+  // Return base starting price
+  return Number(serviceObj.price?.starting) || 499;
 };
 
 const BookingWizard = ({ initialServiceSlug }) => {
@@ -65,11 +103,16 @@ const BookingWizard = ({ initialServiceSlug }) => {
   const initialServiceObj = initialServiceSlug ? allServices.find(s => s.slug === initialServiceSlug) : null;
   const initialCategory = initialServiceObj ? (
     initialServiceObj.categorySlug === 'car-wash' ? 'Car Wash' :
-    initialServiceObj.categorySlug === 'commercial' ? 'Commercial' : 'Home Care'
+    initialServiceObj.categorySlug === 'commercial' ? 'Commercial' :
+    initialServiceObj.categorySlug === 'gym' ? 'Gym Cleaning' : 'Home Care'
   ) : 'Car Wash';
 
   let initialSubType = 'sedan';
-  if (initialCategory === 'Home Care' && initialServiceObj) {
+  if (initialCategory === 'Car Wash' && initialServiceObj) {
+    if (initialServiceObj.id.includes('two-wheeler')) initialSubType = 'two_wheeler';
+  } else if (initialCategory === 'Gym Cleaning') {
+    initialSubType = 'studio';
+  } else if (initialCategory === 'Home Care' && initialServiceObj) {
     if (initialServiceObj.slug.includes('tile')) initialSubType = 'tiles';
     else if (initialServiceObj.slug.includes('kitchen')) initialSubType = 'kitchen';
     else if (['sofa-cleaning', 'carpet-cleaning', 'doormat-cleaning'].includes(initialServiceObj.id)) initialSubType = 'sofa';
@@ -82,7 +125,7 @@ const BookingWizard = ({ initialServiceSlug }) => {
   const [formData, setFormData] = useState({
     category: initialCategory,
     subType: initialSubType,
-    service: initialServiceObj ? initialServiceObj.name : 'Foam Wash',
+    service: initialServiceObj ? initialServiceObj.name : 'Basic Wash',
     serviceObj: initialServiceObj || allServices.find(s => s.categorySlug === 'car-wash'),
     date: new Date().toISOString().split('T')[0],
     timeSlot: '10:00 AM - 12:00 PM',
@@ -97,7 +140,13 @@ const BookingWizard = ({ initialServiceSlug }) => {
   // Filtered Services matching Category AND Sub-Type
   const getFilteredServices = (cat = formData.category, st = formData.subType) => {
     if (cat === 'Car Wash') {
-      return allServices.filter(s => s.categorySlug === 'car-wash');
+      if (st === 'two_wheeler') {
+        return allServices.filter(s => s.id.startsWith('two-wheeler'));
+      }
+      return allServices.filter(s => s.categorySlug === 'car-wash' && !s.id.startsWith('two-wheeler'));
+    }
+    if (cat === 'Gym Cleaning') {
+      return allServices.filter(s => s.categorySlug === 'gym');
     }
     if (cat === 'Commercial') {
       if (st === 'fleet') {
@@ -189,6 +238,7 @@ const BookingWizard = ({ initialServiceSlug }) => {
     if (currentStep === steps.length) {
       setLoading(true);
       try {
+        const calculatedPrice = computeServicePrice(formData.serviceObj, formData.subType);
         const payload = {
           service: formData.service?.trim() || 'General Cleaning',
           category: formData.category?.trim() || 'Home Care',
@@ -202,7 +252,7 @@ const BookingWizard = ({ initialServiceSlug }) => {
           contactName: formData.contactName.trim(),
           contactEmail: formData.contactEmail.trim(),
           contactPhone: formData.contactPhone.trim(),
-          amount: Number(formData.serviceObj?.price?.starting) || 499,
+          amount: calculatedPrice,
         };
 
         const res = await api.post('/bookings', payload);
@@ -339,7 +389,7 @@ const BookingWizard = ({ initialServiceSlug }) => {
                   <p className="text-xs text-gray-500">Choose the main cleaning domain for your requirement.</p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                   {MAIN_CATEGORIES.map(cat => {
                     const IconComp = cat.icon;
                     const isSelected = formData.category === cat.id;
@@ -347,7 +397,7 @@ const BookingWizard = ({ initialServiceSlug }) => {
                       <div
                         key={cat.id}
                         onClick={() => {
-                          const newCatSlug = cat.id === 'Car Wash' ? 'car-wash' : cat.id === 'Commercial' ? 'commercial' : 'home';
+                          const newCatSlug = cat.id === 'Car Wash' ? 'car-wash' : cat.id === 'Commercial' ? 'commercial' : cat.id === 'Gym Cleaning' ? 'gym' : 'home';
                           const defaultSrv = allServices.find(s => s.categorySlug === newCatSlug);
                           setFormData({
                             ...formData,
@@ -444,6 +494,7 @@ const BookingWizard = ({ initialServiceSlug }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[420px] overflow-y-auto pr-1">
                   {filteredServices.map(srv => {
                     const isSelected = formData.service === srv.name;
+                    const dynamicPrice = computeServicePrice(srv, formData.subType);
                     return (
                       <div 
                         key={srv.id} 
@@ -458,7 +509,7 @@ const BookingWizard = ({ initialServiceSlug }) => {
                         </div>
 
                         <div className="pt-3 border-t border-gray-100 flex justify-between items-center text-xs">
-                          <span className="font-extrabold text-primary-dark text-base">₹{srv.price?.starting || 499}</span>
+                          <span className="font-extrabold text-primary-dark text-base">₹{dynamicPrice}</span>
                           {isSelected ? (
                             <span className="text-xs font-bold text-primary flex items-center gap-1">
                               <CheckCircle2 size={16} /> Selected
@@ -587,8 +638,8 @@ const BookingWizard = ({ initialServiceSlug }) => {
                     <span className="font-bold text-gray-800">{formData.contactName} ({formData.contactPhone})</span>
                   </div>
                   <div>
-                    <span className="text-xs text-gray-500 uppercase block">Starting Rate</span>
-                    <span className="font-extrabold text-primary-dark text-base">₹{formData.serviceObj?.price?.starting || 499}</span>
+                    <span className="text-xs text-gray-500 uppercase block">Package Rate</span>
+                    <span className="font-extrabold text-primary-dark text-base">₹{computeServicePrice(formData.serviceObj, formData.subType)}</span>
                   </div>
                   <div className="sm:col-span-2">
                     <span className="text-xs text-gray-500 uppercase block">Doorstep Address</span>

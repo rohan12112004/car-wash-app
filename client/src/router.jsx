@@ -15,6 +15,7 @@ const ServicesHubPage = lazy(() => import('./pages/ServicesHubPage'));
 const CarWashHubPage = lazy(() => import('./pages/CarWashHubPage'));
 const CommercialHubPage = lazy(() => import('./pages/CommercialHubPage'));
 const HomeCleaningHubPage = lazy(() => import('./pages/HomeCleaningHubPage'));
+const GymCleaningHubPage = lazy(() => import('./pages/GymCleaningHubPage'));
 const ServiceDetailPage = lazy(() => import('./pages/ServiceDetailPage'));
 const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
@@ -47,6 +48,8 @@ const AppRouter = () => {
       <Route path="/services/commercial/:slug" element={<ServiceDetailPage />} />
       <Route path="/services/home" element={<HomeCleaningHubPage />} />
       <Route path="/services/home/:slug" element={<ServiceDetailPage />} />
+      <Route path="/services/gym" element={<GymCleaningHubPage />} />
+      <Route path="/services/gym/:slug" element={<ServiceDetailPage />} />
       
       {/* Utility Pages */}
       <Route path="/gallery" element={<GalleryPage />} />

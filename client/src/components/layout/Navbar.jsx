@@ -24,6 +24,7 @@ const Navbar = () => {
     { name: 'Car Wash', path: '/services/car-wash' },
     { name: 'Commercial', path: '/services/commercial' },
     { name: 'Home Care', path: '/services/home' },
+    { name: 'Gym Care', path: '/services/gym' },
     { name: 'Gallery', path: '/gallery' },
     { name: 'Franchise', path: '/franchise' },
     { name: 'Pricing', path: '/pricing' },

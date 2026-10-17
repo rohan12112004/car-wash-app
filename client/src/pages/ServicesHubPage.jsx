@@ -6,7 +6,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Car, Building2, Home, CheckCircle2, Sparkles, Droplets, ShieldCheck, ArrowRight, UserCheck } from 'lucide-react';
+import { Car, Building2, Home, CheckCircle2, Sparkles, Droplets, ShieldCheck, ArrowRight, UserCheck, Dumbbell } from 'lucide-react';
 import PageWrapper from '../components/layout/PageWrapper';
 import FadeIn from '../components/animations/FadeIn';
 import SectionHeading from '../components/common/SectionHeading';
@@ -17,7 +17,7 @@ const categories = [
     title: 'Car Wash & Detailing',
     path: '/services/car-wash',
     icon: Car,
-    description: 'Doorstep foam washing, ceramic coating, interior steam sanitization, and rim detailing.',
+    description: 'Doorstep foam washing, ceramic coating, bike wash & scratch detailing.',
     color: 'bg-emerald-500 text-emerald-600',
     image: '/images/car_foam_wash.jpg',
   },
@@ -33,10 +33,18 @@ const categories = [
     title: 'Home Cleaning',
     path: '/services/home',
     icon: Home,
-    description: 'Deep house cleaning, sofa vacuuming, carpet shampooing, and kitchen sanitization.',
+    description: 'Deep house cleaning, sofa shampooing (3-12 seaters), carpet, and kitchen sanitization.',
     color: 'bg-green-600 text-green-700',
     image: '/images/carpet_cleaning.jpg',
-  }
+  },
+  {
+    title: 'Gym Cleaning',
+    path: '/services/gym',
+    icon: Dumbbell,
+    description: 'Equipment antibacterial disinfection, rubber floor rotary scrubbing & thermal fogging.',
+    color: 'bg-teal-600 text-teal-700',
+    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800',
+  },
 ];
 
 const PROCESS_STEPS = [
@@ -101,8 +109,8 @@ const ServicesHubPage = () => {
             </div>
           </FadeIn>
 
-          {/* 3 Main Category Hub Cards */}
-          <div className="grid md:grid-cols-3 gap-8 mb-24">
+          {/* Category Hub Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
             {categories.map((cat, idx) => {
               const IconComp = cat.icon;
               return (

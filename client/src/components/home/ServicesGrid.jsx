@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Car, Truck, Home, ArrowRight } from 'lucide-react';
+import { Car, Truck, Home, ArrowRight, Dumbbell } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FadeIn from '../animations/FadeIn';
 import SectionHeading from '../common/SectionHeading';
@@ -12,13 +12,13 @@ import SectionHeading from '../common/SectionHeading';
 const categories = [
   {
     title: 'Car Wash & Detailing',
-    subtitle: 'Personal Vehicles',
-    description: 'Foam wash, dry wash, machine polishing, steam deep cleaning, and full detailing delivered at your doorstep.',
+    subtitle: 'Personal Vehicles & Bikes',
+    description: 'Foam wash, dry wash, machine polish, minor scratch detailing & 2-wheeler wash delivered at your doorstep.',
     icon: Car,
     link: '/services/car-wash',
     badge: 'Popular',
     gradient: 'from-primary-dark via-primary to-primary-light',
-    servicesCount: '5 Premium Services',
+    servicesCount: '8 Specialized Packages',
   },
   {
     title: 'Commercial Vehicle Care',
@@ -32,13 +32,23 @@ const categories = [
   },
   {
     title: 'Home Cleaning Services',
-    subtitle: 'Residential & Office',
-    description: 'Deep extraction sofa & carpet cleaning, AC servicing, water tank sanitization, solar panel & tile cleaning.',
+    subtitle: 'Residential Hygiene',
+    description: 'Deep extraction sofa shampooing (3-12 seats), carpet, AC, water tank, solar panel & kitchen care.',
     icon: Home,
     link: '/services/home',
     badge: 'Doorstep Care',
     gradient: 'from-primary-light via-accent to-accent-glow',
-    servicesCount: '10 Home Services',
+    servicesCount: '12 Home Services',
+  },
+  {
+    title: 'Gym Cleaning Services',
+    subtitle: 'Fitness & Studios',
+    description: 'Equipment antimicrobial disinfection, rubber floor rotary scrubbing & thermal fogging sanitization.',
+    icon: Dumbbell,
+    link: '/services/gym',
+    badge: 'New Service',
+    gradient: 'from-emerald-700 via-primary to-teal-500',
+    servicesCount: '2 Gym Packages',
   },
 ];
 
@@ -49,11 +59,11 @@ const ServicesGrid = () => {
         
         <SectionHeading 
           title="Explore Our Core Services" 
-          subtitle="Three specialized verticals tailored for personal vehicles, commercial fleets, and residential hygiene."
+          subtitle="Specialized verticals tailored for personal vehicles, commercial fleets, residential hygiene, and fitness centers."
           center
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
           {categories.map((cat, idx) => (
             <FadeIn key={idx} delay={idx * 0.15}>
               <Link to={cat.link} className="block h-full">
