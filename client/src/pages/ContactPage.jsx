@@ -7,7 +7,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { MapPin, Phone, Mail, Send, MessageSquare } from 'lucide-react';
+import { MapPin, Phone, Mail, Send, MessageSquare, ExternalLink } from 'lucide-react';
 import PageWrapper from '../components/layout/PageWrapper';
 import FadeIn from '../components/animations/FadeIn';
 import Input from '../components/common/Input';
@@ -152,11 +152,29 @@ const ContactPage = () => {
               </FadeIn>
 
               <FadeIn delay={0.4}>
-                 <div className="h-80 w-full rounded-3xl overflow-hidden shadow-md border border-gray-100">
-                    {/* Placeholder for map embed */}
+                <div className="rounded-3xl overflow-hidden shadow-lg border border-gray-100 bg-white">
+                  <div className="p-4 bg-emerald-50 border-b border-emerald-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-5 h-5 text-emerald-600 shrink-0" />
+                      <div>
+                        <span className="font-bold text-sm text-gray-900 block">Premia Carwash Location</span>
+                        <span className="text-xs text-gray-500">Janakpuri / Vikaspuri, New Delhi - 110018</span>
+                      </div>
+                    </div>
+                    <a
+                      href={companyInfo.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-sm shrink-0"
+                    >
+                      <span>Open in Google Maps App</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                  <div className="h-80 w-full">
                     <iframe 
-                      title="location"
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14014.234721899498!2d77.0698!3d28.6219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d04b2e6a4bbc3%3A0x91f76e3c2a3a8b50!2sJanakpuri%2C%20New%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1698765432100!5m2!1sen!2sin" 
+                      title="Premia Carwash Google Maps Location"
+                      src="https://maps.google.com/maps?q=28.6280327,77.0738831&hl=en&z=16&output=embed"
                       width="100%" 
                       height="100%" 
                       style={{ border: 0 }} 
@@ -164,7 +182,8 @@ const ContactPage = () => {
                       loading="lazy" 
                       referrerPolicy="no-referrer-when-downgrade"
                     ></iframe>
-                 </div>
+                  </div>
+                </div>
               </FadeIn>
             </div>
           </div>
